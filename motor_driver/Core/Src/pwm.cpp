@@ -5,7 +5,7 @@
  *      Author: Ayato Yoshida
  */
 //#include <Feedback.hpp>
-#include <main.hpp>
+#include <main.h>
 #include "General.hpp"
 
 //uint8_t Rxdata[2];
@@ -70,6 +70,7 @@ void PWM::control_PWM(void){
 
 
 void PWM::outputPWM_LED(int pwm){
+
 /*
     	void MX_TIM1_Init(void);
 
@@ -79,6 +80,7 @@ void PWM::outputPWM_LED(int pwm){
         HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
         HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_3);
 */
+
 }
 
 

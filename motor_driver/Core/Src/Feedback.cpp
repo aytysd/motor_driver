@@ -5,7 +5,7 @@
  *      Author: Ayato Yoshida
  */
 
-#include "main.hpp"
+#include "main.h"
 #include "General.hpp"
 #include "math.h"
 

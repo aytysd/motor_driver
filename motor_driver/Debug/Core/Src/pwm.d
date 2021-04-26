@@ -1,4 +1,4 @@
-Core/Src/pwm.o: ../Core/Src/pwm.cpp ../Core/Inc/main.hpp \
+Core/Src/pwm.o: ../Core/Src/pwm.cpp ../Core/Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h \
  ../Core/Inc/stm32f3xx_hal_conf.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h \
@@ -30,7 +30,7 @@ Core/Src/pwm.o: ../Core/Src/pwm.cpp ../Core/Inc/main.hpp \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h \
  ../Core/Inc/General.hpp
 
-../Core/Inc/main.hpp:
+../Core/Inc/main.h:
 
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
 

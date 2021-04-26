@@ -69,8 +69,8 @@ all: main-build
 main-build: motor_driver.elf secondary-outputs
 
 # Tool invocations
-motor_driver.elf: $(OBJS) $(USER_OBJS) C:\Users\Ayato\ Yoshida\robocon\STM32CubeIDE\workspace_1.5.0\motor_driver\STM32F303K8TX_FLASH.ld
-	arm-none-eabi-g++ -o "motor_driver.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Ayato Yoshida\robocon\STM32CubeIDE\workspace_1.5.0\motor_driver\STM32F303K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="motor_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+motor_driver.elf: $(OBJS) $(USER_OBJS) C:\Users\Ayato\ Yoshida\robocon\STM32CubeIDE\workspace_1.5.0\motor_driver_github\motor_driver\STM32F303K8TX_FLASH.ld
+	arm-none-eabi-g++ -o "motor_driver.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Ayato Yoshida\robocon\STM32CubeIDE\workspace_1.5.0\motor_driver_github\motor_driver\STM32F303K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="motor_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

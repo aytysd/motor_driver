@@ -37,7 +37,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+extern TIM_OC_InitTypeDef sConfigOC;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -64,15 +64,22 @@ void Error_Handler(void);
 #define EN_A_GPIO_Port GPIOA
 #define EN_B_Pin GPIO_PIN_3
 #define EN_B_GPIO_Port GPIOA
+#define MN_0_Pin GPIO_PIN_4
+#define MN_0_GPIO_Port GPIOA
 #define MN_1_Pin GPIO_PIN_5
 #define MN_1_GPIO_Port GPIOA
 #define MN_2_Pin GPIO_PIN_6
 #define MN_2_GPIO_Port GPIOA
 #define MN_3_Pin GPIO_PIN_7
 #define MN_3_GPIO_Port GPIOA
+#define LD_0_Pin GPIO_PIN_11
+#define LD_0_GPIO_Port GPIOA
 #define LD_1_Pin GPIO_PIN_12
 #define LD_1_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
+#define CW 1
+#define CCW 2
+#define BRAKE 3
 
 /* USER CODE END Private defines */
 

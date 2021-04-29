@@ -37,7 +37,6 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-extern TIM_OC_InitTypeDef sConfigOC;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -56,14 +55,15 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
 #define EN_A_Pin GPIO_PIN_1
 #define EN_A_GPIO_Port GPIOA
+#define EN_A_EXTI_IRQn EXTI1_IRQn
 #define EN_B_Pin GPIO_PIN_3
 #define EN_B_GPIO_Port GPIOA
+#define EN_B_EXTI_IRQn EXTI3_IRQn
 #define MN_0_Pin GPIO_PIN_4
 #define MN_0_GPIO_Port GPIOA
 #define MN_1_Pin GPIO_PIN_5
@@ -80,6 +80,11 @@ void Error_Handler(void);
 #define CW 1
 #define CCW 2
 #define BRAKE 3
+
+#define PPR 2048
+#define RADIUS 53.5 //mm
+#define CIRCUMFERENCE 336.150413
+#define DT 1
 
 /* USER CODE END Private defines */
 

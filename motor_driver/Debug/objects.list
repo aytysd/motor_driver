@@ -1,4 +1,5 @@
 "Core/Src/Feedback.o"
+"Core/Src/encoder.o"
 "Core/Src/main.o"
 "Core/Src/pwm.o"
 "Core/Src/stm32f3xx_hal_msp.o"

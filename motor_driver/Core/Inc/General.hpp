@@ -8,17 +8,8 @@
 #ifndef INC_GENERAL_HPP_
 #define INC_GENERAL_HPP_
 
-extern double PID_result;
-extern double result;
-extern double pulse_per_second;
+#include "main.h"
 
-
-class Feedback{
-private:
-	double P_control(double target, double current);
-	double pulse_per_pwm;
-
-};
 
 class PWM{
 public:
@@ -28,12 +19,29 @@ public:
     uint8_t pwm;
     uint8_t trapezoid;
 
-    void outputPWM0(int pwm);
-    void outputPWM1(int pwm);
-    void outputPWM_LED(int pwm);
+
     void control_PWM();
     void LED();
 
+};
+class Function{
+public:
+	int pulse_cnt;
+    void outputPWM_LED(int pwm);
+    void outputPWM0(int pwm);
+    void outputPWM1(int pwm);
+    int EN_1(void);
+    int EN_3(void);
+
+
+};
+class Feedback{
+public:
+	double speed;
+
+	double P_control(double Kp, double target, double input);
+	double PID_control(double Kp, double Ki, double Kd, double target, double nowrap);
+	double speed_calc(int pulse);
 };
 
 

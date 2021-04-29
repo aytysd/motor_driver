@@ -1,5 +1,5 @@
-Core/Src/Feedback.o: ../Core/Src/Feedback.cpp ../Core/Inc/main.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h \
+Core/Src/encoder.o: ../Core/Src/encoder.cpp ../Core/Inc/General.hpp \
+ ../Core/Inc/main.h ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h \
  ../Core/Inc/stm32f3xx_hal_conf.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h \
@@ -28,7 +28,9 @@ Core/Src/Feedback.o: ../Core/Src/Feedback.cpp ../Core/Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h \
- ../Core/Inc/General.hpp ../Core/Inc/main.h
+ ../Core/Inc/main.h
+
+../Core/Inc/General.hpp:
 
 ../Core/Inc/main.h:
 
@@ -89,7 +91,5 @@ Core/Src/Feedback.o: ../Core/Src/Feedback.cpp ../Core/Inc/main.h \
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h:
 
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h:
-
-../Core/Inc/General.hpp:
 
 ../Core/Inc/main.h:

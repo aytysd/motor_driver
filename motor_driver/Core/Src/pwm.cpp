@@ -26,29 +26,37 @@ uint8_t PWM::set_motor_number(){
 }
 void PWM::control_PWM(void){
 
+	Function * function = new Function();
+
     uint8_t motor_number = (0b00111100&data[0])>>2;
     uint8_t direction = 0b00000011&data[0];
     uint8_t pwm = data[1];
+    if(pwm >= 99){
+    	pwm = 99;
+    }
     uint8_t trapezoid = data[0]>>6;
 
     if (motor_number == this -> set_motor_number())
     {
-//        if (trapezoid == 1) pwm = controlTrapezoid(pwm);
+//       if (trapezoid == 1) pwm = controlTrapezoid(pwm);
+    	pwm = this -> trapezoid_control(100, 0 , pwm);
 
         if (direction == CW)
         {
+
 /*
-            outputPWM0(pwm);
-            outputPWM1(99);
+            function -> outputPWM0(pwm);
+            function -> outputPWM1(99);
 */
+
             HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
             HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
         }
         else if (direction == CCW)
         {
 /*
-            outputPWM0(1);
-            outputPWM1(100-pwm);
+            function -> outputPWM0(1);
+            function -> outputPWM1(100-pwm);
 */
             HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
             HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
@@ -56,13 +64,49 @@ void PWM::control_PWM(void){
         else if (direction == BRAKE)
         {
 /*
-            outputPWM0(0);
-            outputPWM1(100);
+            function -> outputPWM0(0);
+            function -> outputPWM1(100);
 */
             HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
             HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
         }
     }
+
+    delete function;
+
+
+
+}
+
+uint8_t PWM::trapezoid_control(uint8_t period, uint8_t divider, uint8_t target){
+
+/*
+	static uint8_t phase_pwm = 0;
+
+	if(phase_pwm >= target - 5 ){
+		return target;
+	}
+
+	phase_pwm += target / divider;
+
+	HAL_Delay(period);
+*/
+	static int phase_pwm = 0;
+
+	phase_pwm++;
+	if(phase_pwm >= target){
+		return target;
+	}
+	HAL_Delay(period);
+
+	return phase_pwm;
+/*
+	for(int i = 7; i <= target; i++){
+		HAL_Delay(period);
+		phase_pwm++;
+		return phase_pwm;
+	}
+*/
 
 
 

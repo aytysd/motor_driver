@@ -19,13 +19,16 @@ public:
     uint8_t pwm;
     uint8_t trapezoid;
 
-
+    uint8_t trapezoid_control(uint8_t period, uint8_t divider, uint8_t target);
     void control_PWM();
     void LED();
 
 };
 class Function{
 public:
+	Function();
+	~Function();
+
 	int pulse_cnt;
     void outputPWM_LED(int pwm);
     void outputPWM0(int pwm);

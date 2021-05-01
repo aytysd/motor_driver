@@ -73,7 +73,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 
-	Function func;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -375,6 +375,13 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+Function::Function(){
+
+}
+Function::~Function(){
+
+}
 void Function::outputPWM_LED(int pwm){
 
 

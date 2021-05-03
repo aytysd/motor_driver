@@ -48,7 +48,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-//PWM pwm;
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -262,7 +262,7 @@ void TIM6_DAC1_IRQHandler(void)
   /* USER CODE END TIM6_DAC1_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC1_IRQn 1 */
-//  pwm.LED();
+//  HAL_GPIO_TogglePin(LD_0_GPIO_Port, LD_0_Pin);
 
   /* USER CODE END TIM6_DAC1_IRQn 1 */
 }

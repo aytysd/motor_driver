@@ -10,6 +10,7 @@
 
 #include "main.h"
 
+extern uint8_t Rxdata[8];
 
 class PWM{
 public:
@@ -19,7 +20,7 @@ public:
     uint8_t pwm;
     uint8_t trapezoid;
 
-    uint8_t trapezoid_control(uint8_t period, uint8_t divider, uint8_t target);
+    uint8_t trapezoid_control(uint8_t period, uint8_t target);
     void control_PWM();
     void LED();
 

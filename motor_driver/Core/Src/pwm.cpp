@@ -35,10 +35,11 @@ void PWM::control_PWM(void){
     	pwm = 99;
     }
     uint8_t trapezoid = data[0]>>6;
+    static uint8_t old_pwm = 0;
+
 
     if (motor_number == this -> set_motor_number())
     {
-//       if (trapezoid == 1) pwm = controlTrapezoid(pwm);
     	pwm = this -> trapezoid_control(100, 0 , pwm);
 
         if (direction == CW)
@@ -72,43 +73,24 @@ void PWM::control_PWM(void){
         }
     }
 
+    old_pwm = pwm;
+
+
     delete function;
 
 
 
 }
 
-uint8_t PWM::trapezoid_control(uint8_t period, uint8_t divider, uint8_t target){
+uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target){
 
-/*
-	static uint8_t phase_pwm = 0;
-
-	if(phase_pwm >= target - 5 ){
+	if(old_pwm >= target){
 		return target;
 	}
-
-	phase_pwm += target / divider;
-
-	HAL_Delay(period);
-*/
-	static int phase_pwm = 0;
-
-	phase_pwm++;
-	if(phase_pwm >= target){
-		return target;
-	}
+	old_pwm++;
 	HAL_Delay(period);
 
-	return phase_pwm;
-/*
-	for(int i = 7; i <= target; i++){
-		HAL_Delay(period);
-		phase_pwm++;
-		return phase_pwm;
-	}
-*/
-
-
+	return old_pwm;
 
 }
 

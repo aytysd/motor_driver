@@ -48,6 +48,9 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 TIM_OC_InitTypeDef sConfigOC = {0};
+int test = 0;
+int getUart = 0;
+uint8_t Rxdata[8];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,12 +60,15 @@ static void MX_USART2_UART_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM6_Init(void);
 /* USER CODE BEGIN PFP */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef*UartHandle){
+	HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata, sizeof(Rxdata));
+	getUart = 1;
+}
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int test = 0;
+
 /* USER CODE END 0 */
 
 /**
@@ -99,14 +105,18 @@ int main(void)
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim6);
+  HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata, sizeof(Rxdata));
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  while(getUart == 0){
 
+	  }
 
+	  HAL_GPIO_TogglePin(LD_0_GPIO_Port, LD_0_Pin);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

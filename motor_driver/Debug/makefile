@@ -1,5 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
+# Toolchain: GNU Tools for STM32 (9-2020-q2-update)
 ################################################################################
 
 -include ../makefile.init
@@ -43,6 +44,12 @@ endif
 
 -include ../makefile.defs
 
+OPTIONAL_TOOL_DEPS := \
+$(wildcard ../makefile.defs) \
+$(wildcard ../makefile.init) \
+$(wildcard ../makefile.targets) \
+
+
 BUILD_ARTIFACT_NAME := motor_driver
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX := 
@@ -69,22 +76,22 @@ all: main-build
 main-build: motor_driver.elf secondary-outputs
 
 # Tool invocations
-motor_driver.elf: $(OBJS) $(USER_OBJS) C:\Users\Ayato\ Yoshida\robocon\STM32CubeIDE\workspace_1.5.0\motor_driver_github\motor_driver\STM32F303K8TX_FLASH.ld
-	arm-none-eabi-g++ -o "motor_driver.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Ayato Yoshida\robocon\STM32CubeIDE\workspace_1.5.0\motor_driver_github\motor_driver\STM32F303K8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="motor_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+motor_driver.elf: $(OBJS) $(USER_OBJS) C:\Users\Ayato\ Yoshida\robocon\STM32CubeIDE\workspace_1.5.0\motor_driver_github\motor_driver\STM32F303K8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "motor_driver.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Ayato Yoshida\robocon\STM32CubeIDE\workspace_1.5.0\motor_driver_github\motor_driver\STM32F303K8TX_FLASH.ld" -Wl,-Map="motor_driver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-default.size.stdout: $(EXECUTABLES)
+default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-size  $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-motor_driver.list: $(EXECUTABLES)
+motor_driver.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "motor_driver.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-motor_driver.bin: $(EXECUTABLES)
+motor_driver.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "motor_driver.bin"
 	@echo 'Finished building: $@'
 	@echo ' '

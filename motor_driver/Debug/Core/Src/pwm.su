@@ -1,4 +1,7 @@
-pwm.cpp:15:9:uint8_t PWM::set_motor_number()	24	static
-pwm.cpp:27:6:void PWM::control_PWM()	40	static
-pwm.cpp:81:9:uint8_t PWM::trapezoid_control(uint8_t, uint8_t, uint8_t)	16	static
-pwm.cpp:123:6:void PWM::LED()	16	static
+pwm.cpp:13:9:uint8_t PWM::set_motor_number()	24	static
+pwm.cpp:25:6:void PWM::control_PWM()	24	static
+pwm.cpp:65:9:uint8_t PWM::trapezoid_control(uint8_t, uint8_t)	16	static
+pwm.cpp:77:6:void PWM::cw(uint8_t)	32	static
+pwm.cpp:91:6:void PWM::ccw(uint8_t)	32	static
+pwm.cpp:104:6:void PWM::brake()	32	static
+pwm.cpp:119:6:void PWM::free()	32	static

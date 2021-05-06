@@ -8,8 +8,6 @@
 #include <main.h>
 #include "General.hpp"
 
-//uint8_t Rxdata[2];
-uint8_t data[2];
 
 
 uint8_t PWM::set_motor_number(){
@@ -26,57 +24,39 @@ uint8_t PWM::set_motor_number(){
 }
 void PWM::control_PWM(void){
 
-	Function * function = new Function();
 
-    uint8_t motor_number = (0b00111100&data[0])>>2;
-    uint8_t direction = 0b00000011&data[0];
-    uint8_t pwm = data[1];
-    if(pwm >= 99){
-    	pwm = 99;
+
+    uint8_t motor_number = (0b00111100&Rxdata[0])>>2;
+    uint8_t direction = 0b00000011&Rxdata[0];
+    uint8_t target = Rxdata[1];
+    if(target >= 99){
+    	target = 99;
     }
-    uint8_t trapezoid = data[0]>>6;
-    static uint8_t old_pwm = 0;
+    uint8_t pwm;
 
 
     if (motor_number == this -> set_motor_number())
     {
-    	pwm = this -> trapezoid_control(100, 0 , pwm);
+    	pwm = this -> trapezoid_control(PERIOD, target);
 
         if (direction == CW)
         {
-
-/*
-            function -> outputPWM0(pwm);
-            function -> outputPWM1(99);
-*/
-
-            HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
-            HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
+        	this -> cw(pwm);
         }
         else if (direction == CCW)
         {
-/*
-            function -> outputPWM0(1);
-            function -> outputPWM1(100-pwm);
-*/
-            HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
-            HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
+        	this -> ccw(pwm);
         }
         else if (direction == BRAKE)
         {
-/*
-            function -> outputPWM0(0);
-            function -> outputPWM1(100);
-*/
-            HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
-            HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
+        	this -> brake();
         }
     }
 
     old_pwm = pwm;
 
 
-    delete function;
+
 
 
 
@@ -84,37 +64,74 @@ void PWM::control_PWM(void){
 
 uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target){
 
-	if(old_pwm >= target){
+	if(this -> old_pwm >= target){
 		return target;
 	}
-	old_pwm++;
+	this -> old_pwm++;
 	HAL_Delay(period);
 
-	return old_pwm;
+	return this -> old_pwm;
 
+}
+
+void PWM::cw(uint8_t pwm){
+
+	Function * function = new Function();
+
+	function -> outputPWM0(pwm);
+	function -> outputPWM1(99);
+
+
+	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
+
+	delete function;
+
+}
+void PWM::ccw(uint8_t pwm){
+
+	Function * function = new Function();
+
+	function -> outputPWM0(1);
+	function -> outputPWM1(100-pwm);
+
+	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
+
+	delete function;
+
+}
+void PWM::brake(void){
+
+	Function * function = new Function();
+
+	function -> outputPWM0(0);
+	function -> outputPWM1(100);
+
+	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
+
+	this -> old_pwm = 0;
+
+	delete function;
+
+}
+void PWM::free(void){
+
+	Function * function = new Function();
+
+	function -> outputPWM0(0);
+	function -> outputPWM1(100);
+
+	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
+
+	this -> old_pwm = 0;
+
+	delete function;
 }
 
 
 
 
-
-
-
-
-
-void PWM::LED(void){
-
-	HAL_GPIO_TogglePin(LD_0_GPIO_Port, LD_0_Pin);
-
-/*
-    HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
-    HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
-    HAL_Delay(1000);
-    HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
-    HAL_Delay(1000);
-*/
-
-
-}
 

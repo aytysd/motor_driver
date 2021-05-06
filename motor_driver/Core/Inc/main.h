@@ -37,6 +37,7 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+extern UART_HandleTypeDef huart2;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -86,6 +87,7 @@ void Error_Handler(void);
 #define CIRCUMFERENCE 336.150413
 #define DT 1
 
+#define PERIOD 50
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -1,4 +1,4 @@
-std_abs.h:70:3:constexpr double std::abs(double)	16	static
-Feedback.cpp:22:8:double Feedback::P_control(double, double, double)	64	static
+std_abs.h:71:3:constexpr double std::abs(double)	16	static
+Feedback.cpp:22:8:double Feedback::P_control(double, double, double)	56	static
 Feedback.cpp:28:8:double Feedback::PID_control(double, double, double, double, double)	88	static
-Feedback.cpp:57:8:double Feedback::speed_calc(int)	24	static
+Feedback.cpp:57:8:double Feedback::speed_calc(int)	16	static

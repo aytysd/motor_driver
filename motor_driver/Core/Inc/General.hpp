@@ -10,19 +10,23 @@
 
 #include "main.h"
 
-extern uint8_t Rxdata[8];
+extern uint8_t Rxdata[2];
 
 class PWM{
-public:
-	uint8_t set_motor_number();
-    uint8_t motor_number;
-    uint8_t direction;
-    uint8_t pwm;
-    uint8_t trapezoid;
 
+private:
+	uint8_t set_motor_number();
+    uint8_t old_pwm;
     uint8_t trapezoid_control(uint8_t period, uint8_t target);
+    void cw(uint8_t pwm);
+    void ccw(uint8_t pwm);
+    void brake(void);
+    void free(void);
+public:
     void control_PWM();
-    void LED();
+	PWM(){
+		this -> old_pwm = 0;
+	}
 
 };
 class Function{
@@ -31,7 +35,6 @@ public:
 	~Function();
 
 	int pulse_cnt;
-    void outputPWM_LED(int pwm);
     void outputPWM0(int pwm);
     void outputPWM1(int pwm);
     int EN_1(void);

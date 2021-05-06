@@ -48,9 +48,7 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 TIM_OC_InitTypeDef sConfigOC = {0};
-int test = 0;
-int getUart = 0;
-uint8_t Rxdata[8];
+uint8_t Rxdata[2];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -62,7 +60,6 @@ static void MX_TIM6_Init(void);
 /* USER CODE BEGIN PFP */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef*UartHandle){
 	HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata, sizeof(Rxdata));
-	getUart = 1;
 }
 /* USER CODE END PFP */
 
@@ -104,19 +101,16 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_Base_Start_IT(&htim6);
+//  HAL_TIM_Base_Start_IT(&htim6);
   HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata, sizeof(Rxdata));
+  PWM* pwm = new PWM();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  while(getUart == 0){
-
-	  }
-
-	  HAL_GPIO_TogglePin(LD_0_GPIO_Port, LD_0_Pin);
+	  pwm -> control_PWM();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -188,9 +182,9 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 0;
+  htim1.Init.Prescaler = 6400;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 639;
+  htim1.Init.Period = 799;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
@@ -217,7 +211,6 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_2);
-  sConfigOC.OCMode = TIM_OCMODE_ASSYMETRIC_PWM2;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
@@ -263,10 +256,10 @@ static void MX_TIM6_Init(void)
 
   /* USER CODE END TIM6_Init 1 */
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 10000;
+  htim6.Init.Prescaler = 0;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 6400;
-  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+  htim6.Init.Period = 65535;
+  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
   {
     Error_Handler();
@@ -392,26 +385,7 @@ Function::Function(){
 Function::~Function(){
 
 }
-void Function::outputPWM_LED(int pwm){
 
-
-
-/*
-	while(1){
-
-		for(int i = 0; i<99; i++){
-			sConfigOC.Pulse = i;
-			HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2);
-			HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-			HAL_TIM_PWM_Init(&htim2);
-			HAL_Delay(10);
-		}
-	}
-
-*/
-
-
-}
 void Function::outputPWM1(int pwm){
 
     static int old_pwm = 0;
@@ -437,7 +411,6 @@ void Function::outputPWM0(int pwm)
 
     if (old_pwm != pwm)
     {
-        TIM_OC_InitTypeDef sConfigOC;
 
         sConfigOC.Pulse = (uint32_t)((8)*pwm);
 

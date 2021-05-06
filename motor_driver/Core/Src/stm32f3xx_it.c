@@ -23,7 +23,6 @@
 #include "stm32f3xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "General.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,7 +56,6 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern TIM_HandleTypeDef htim6;
 extern UART_HandleTypeDef huart2;
 /* USER CODE BEGIN EV */
 
@@ -206,18 +204,12 @@ void SysTick_Handler(void)
   */
 void EXTI1_IRQHandler(void)
 {
-
   /* USER CODE BEGIN EXTI1_IRQn 0 */
-/*
-  Function function;
-  function.EN_1();
-*/
+
   /* USER CODE END EXTI1_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
   /* USER CODE BEGIN EXTI1_IRQn 1 */
-/*  function.EN_1();*/
-  HAL_GPIO_TogglePin(LD_0_GPIO_Port, LD_0_Pin);
-  HAL_Delay(100);
+
   /* USER CODE END EXTI1_IRQn 1 */
 }
 
@@ -227,14 +219,11 @@ void EXTI1_IRQHandler(void)
 void EXTI3_IRQHandler(void)
 {
   /* USER CODE BEGIN EXTI3_IRQn 0 */
-/*
-  Function function;
-  function.EN_3();
-*/
+
   /* USER CODE END EXTI3_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_3);
   /* USER CODE BEGIN EXTI3_IRQn 1 */
-//  function.EN_3();
+
   /* USER CODE END EXTI3_IRQn 1 */
 }
 
@@ -250,21 +239,6 @@ void USART2_IRQHandler(void)
   /* USER CODE BEGIN USART2_IRQn 1 */
 
   /* USER CODE END USART2_IRQn 1 */
-}
-
-/**
-  * @brief This function handles TIM6 global and DAC1 underrun error interrupts.
-  */
-void TIM6_DAC1_IRQHandler(void)
-{
-  /* USER CODE BEGIN TIM6_DAC1_IRQn 0 */
-
-  /* USER CODE END TIM6_DAC1_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim6);
-  /* USER CODE BEGIN TIM6_DAC1_IRQn 1 */
-//  HAL_GPIO_TogglePin(LD_0_GPIO_Port, LD_0_Pin);
-
-  /* USER CODE END TIM6_DAC1_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

@@ -81,11 +81,12 @@ void Error_Handler(void);
 #define CW 1
 #define CCW 2
 #define BRAKE 3
+#define FREE 0
 
 #define PPR 2048
 #define RADIUS 53.5 //mm
 #define CIRCUMFERENCE 336.150413
-#define DT 1
+#define DT 0.5
 
 #define PERIOD 50
 /* USER CODE END Private defines */

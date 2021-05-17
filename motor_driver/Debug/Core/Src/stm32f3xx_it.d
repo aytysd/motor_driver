@@ -1,4 +1,4 @@
-Core/Src/stm32f3xx_it.o: ../Core/Src/stm32f3xx_it.c ../Core/Inc/main.h \
+Core/Src/stm32f3xx_it.o: ../Core/Src/stm32f3xx_it.cpp ../Core/Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h \
  ../Core/Inc/stm32f3xx_hal_conf.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h \
@@ -28,7 +28,7 @@ Core/Src/stm32f3xx_it.o: ../Core/Src/stm32f3xx_it.c ../Core/Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h \
- ../Core/Inc/stm32f3xx_it.h
+ ../Core/Inc/stm32f3xx_it.h ../Core/Inc/General.hpp ../Core/Inc/main.h
 
 ../Core/Inc/main.h:
 
@@ -91,3 +91,7 @@ Core/Src/stm32f3xx_it.o: ../Core/Src/stm32f3xx_it.c ../Core/Inc/main.h \
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h:
 
 ../Core/Inc/stm32f3xx_it.h:
+
+../Core/Inc/General.hpp:
+
+../Core/Inc/main.h:

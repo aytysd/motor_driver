@@ -59,3 +59,19 @@ double Feedback::speed_calc(int pulse){
 	this -> speed = CIRCUMFERENCE * ((double)pulse / PPR );
 	return this -> speed;
 }
+
+void Feedback::pwm_calc(){
+	static int old_pulse_cnt = 0;
+
+	int speed = (Function::pulse_cnt - old_pulse_cnt) * CIRCUMFERENCE / ( DT * PPR );
+	if( speed < 0 ){
+		Feedback::current_pwm = ( speed - 17.242 ) / 23.677;
+		return;
+	}
+
+	Feedback::current_pwm = ( speed + 17.242 ) / 23.677;
+	return;
+}
+
+int Feedback::current_pwm = 0;
+

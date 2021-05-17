@@ -1,2 +1,2 @@
-encoder.cpp:12:5:int Function::EN_1()	16	static
-encoder.cpp:42:5:int Function::EN_3()	16	static
+encoder.cpp:12:6:void Function::EN_1()	16	static
+encoder.cpp:41:6:void Function::EN_3()	16	static

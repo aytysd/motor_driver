@@ -48,7 +48,7 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 TIM_OC_InitTypeDef sConfigOC = {0};
-uint8_t Rxdata[2] = {0};
+uint8_t Rxdata[2];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -175,13 +175,14 @@ static void MX_TIM1_Init(void)
   /* USER CODE END TIM1_Init 0 */
 
   TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
   /* USER CODE BEGIN TIM1_Init 1 */
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 6400;
+  htim1.Init.Prescaler = 6399;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.Period = 799;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -255,10 +256,10 @@ static void MX_TIM6_Init(void)
 
   /* USER CODE END TIM6_Init 1 */
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 0;
+  htim6.Init.Prescaler = 9999;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 65535;
-  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  htim6.Init.Period = 3199;
+  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
   {
     Error_Handler();
@@ -378,16 +379,9 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-Function::Function(){
+void Function::outputPWM1(uint8_t pwm){
 
-}
-Function::~Function(){
-
-}
-
-void Function::outputPWM1(int pwm){
-
-    static int old_pwm = 0;
+    static uint8_t old_pwm = 0;
 
     if (old_pwm != pwm)
     {
@@ -403,10 +397,10 @@ void Function::outputPWM1(int pwm){
 
 }
 
-void Function::outputPWM0(int pwm)
+void Function::outputPWM0(uint8_t pwm)
 {
 
-    static int old_pwm = 0;
+    static uint8_t old_pwm = 0;
 
     if (old_pwm != pwm)
     {

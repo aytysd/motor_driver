@@ -9,7 +9,7 @@
 #include "main.h"
 
 
-int Function::EN_1(void){
+void Function::EN_1(void){
 
 
 
@@ -36,10 +36,9 @@ int Function::EN_1(void){
 		  }
 	  }
 
-	return pulse_cnt;
 
 }
-int Function::EN_3(void){
+void Function::EN_3(void){
 
 
 
@@ -66,7 +65,8 @@ int Function::EN_3(void){
 	  	  }
 	  }
 
-	return pulse_cnt;
 
 }
+
+int Function::pulse_cnt = 0;
 

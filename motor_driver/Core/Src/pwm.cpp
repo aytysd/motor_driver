@@ -7,6 +7,7 @@
 //#include <Feedback.hpp>
 #include <main.h>
 #include "General.hpp"
+#include "math.h"
 
 
 
@@ -26,40 +27,98 @@ void PWM::control_PWM(void){
 
 
 
-    uint8_t motor_number = (0b00111100&Rxdata[0])>>2;
-    uint8_t direction = 0b00000011&Rxdata[0];
-    uint8_t target = Rxdata[1];
-    if(target >= 99){
-    	target = 99;
-    }
+    this -> motor_number = (0b00111100&Rxdata[0])>>2;
+    this -> direction = 0b00000011&Rxdata[0];
+    this -> target_buff = Rxdata[1];
+
     uint8_t pwm;
 
+    switch(this -> direction){
+    case CW:
+    	this -> target = (int)this -> target_buff;
+    	break;
+    case CCW:
+    	this -> target = (-1) * (int)this -> target_buff;
+    	break;
+    default:
+    	break;
+    }
 
-    if (motor_number == this -> set_motor_number())
+
+
+
+    if (this -> motor_number == this -> set_motor_number())
     {
-    	pwm = this -> trapezoid_control(PERIOD, target);
+    	pwm = this -> trapezoid_control_2(PERIOD, this -> target);
 
-        if (direction == CW)
+        if (this -> direction == CW)
         {
         	this -> cw(pwm);
         }
-        else if (direction == CCW)
+        else if (this -> direction == CCW)
         {
         	this -> ccw(pwm);
         }
-        else if (direction == BRAKE)
+        else if (this -> direction == BRAKE)
         {
         	this -> brake();
         }
+        else if (this -> direction == FREE)
+        {
+        	this -> free();
+        	this -> old_pwm = Feedback::current_pwm;
+        }
     }
 
-    old_pwm = pwm;
+    this -> old_pwm = pwm;
 
 
 
 
 
 
+}
+
+uint8_t PWM::trapezoid_control_2(uint8_t period, uint8_t target){
+	switch(this -> direction){
+	case CW:
+
+		if(this -> old_pwm < 0){
+			this -> free();
+			this -> old_pwm = 0;
+		}
+
+		if(this -> old_pwm >= target){
+			return target;
+		}
+		this -> old_pwm++;
+		HAL_Delay(period);
+
+		return (uint8_t)this -> old_pwm;
+
+
+		break;
+	case CCW:
+
+		if(this -> old_pwm > 0){
+			this -> free();
+			this -> old_pwm = 0;
+		}
+
+		if(this -> old_pwm <= target){
+			return abs(target);
+		}
+		this -> old_pwm--;
+		HAL_Delay(period);
+
+		return (uint8_t)abs(this -> old_pwm);
+
+
+		break;
+	default:
+		break;
+
+	}
 }
 
 uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target){
@@ -126,7 +185,7 @@ void PWM::free(void){
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
 
-	this -> old_pwm = 0;
+
 
 	delete function;
 }

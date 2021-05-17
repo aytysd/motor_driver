@@ -31,7 +31,7 @@ void PWM::control_PWM(void){
     this -> direction = 0b00000011&Rxdata[0];
     this -> target_buff = Rxdata[1];
 
-    uint8_t pwm;
+    uint8_t pwm = 0;
 
     switch(this -> direction){
     case CW:

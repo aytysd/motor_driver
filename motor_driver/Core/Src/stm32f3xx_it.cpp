@@ -23,7 +23,8 @@
 #include "stm32f3xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "General.hpp"
+#include "PWM.hpp"
+#include "Feedback.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

@@ -6,9 +6,10 @@
  */
 //#include <Feedback.hpp>
 #include <main.h>
-#include "General.hpp"
 #include "math.h"
-
+#include "PWM.hpp"
+#include "Feedback.hpp"
+#include "Function.hpp"
 
 
 uint8_t PWM::set_motor_number(){

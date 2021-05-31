@@ -55,10 +55,12 @@ void PWM::control_PWM(void){
         if (this -> direction == CW)
         {
         	this -> cw(pwm);
+        	this -> old_pwm = pwm;
         }
         else if (this -> direction == CCW)
         {
         	this -> ccw(pwm);
+        	this -> old_pwm = pwm;
         }
         else if (this -> direction == BRAKE)
         {
@@ -71,7 +73,7 @@ void PWM::control_PWM(void){
         }
     }
 
-    this -> old_pwm = pwm;
+
 
 
 
@@ -89,8 +91,8 @@ uint8_t PWM::trapezoid_control_2(uint8_t period, uint8_t target){
 			this -> old_pwm = 0;
 		}
 
-		if(this -> old_pwm >= target){
-			return target;
+		if(this -> old_pwm >= this -> target){
+			return this -> target;
 		}
 		this -> old_pwm++;
 		HAL_Delay(period);
@@ -106,8 +108,8 @@ uint8_t PWM::trapezoid_control_2(uint8_t period, uint8_t target){
 			this -> old_pwm = 0;
 		}
 
-		if(this -> old_pwm <= target){
-			return abs(target);
+		if(this -> old_pwm <= this -> target){
+			return abs( this -> target);
 		}
 		this -> old_pwm--;
 		HAL_Delay(period);
@@ -181,12 +183,12 @@ void PWM::free(void){
 	Function * function = new Function();
 
 	function -> outputPWM0(0);
-	function -> outputPWM1(100);
+	function -> outputPWM1(0);
 
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
 
-
+	HAL_Delay(500);
 
 	delete function;
 }

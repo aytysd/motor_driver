@@ -38,6 +38,8 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern UART_HandleTypeDef huart2;
+extern TIM_OC_InitTypeDef sConfigOC;
+extern TIM_HandleTypeDef htim1;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -87,7 +89,7 @@ extern uint8_t Rxdata[2];
 #define PPR 2048
 #define RADIUS 53.5 //mm
 #define CIRCUMFERENCE 336.150413
-#define DT 0.5
+#define DT 1 / (64*10^6 / (( htim1.Init.Prescaler + 1) * ( htim1.Init.Period + 1 )))
 
 #define PERIOD 50
 /* USER CODE END Private defines */

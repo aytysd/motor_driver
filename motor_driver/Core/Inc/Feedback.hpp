@@ -25,11 +25,16 @@ class Feedback{
 public:
 	double speed;
 
-	double P_control(double Kp, double target, double input);
-	double PID_control(double Kp, double Ki, double Kd, double target, double nowrap);
+	uint8_t PID_control( uint16_t target_speed );
+
 	double speed_calc(int pulse);
 	void pwm_calc(void);
 	static int current_pwm;
+
+private:
+	uint8_t P_control(uint16_t target_speed, uint16_t current_speed);
+	uint8_t I_control(uint16_t target_speed, uint16_t current_speed);
+	uint8_t D_control(uint16_t target_speed, uint16_t current_speed);
 };
 
 

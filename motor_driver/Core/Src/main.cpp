@@ -48,7 +48,7 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 TIM_OC_InitTypeDef sConfigOC = {0};
-uint8_t Rxdata[2];
+uint8_t Rxdata[2] = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -378,41 +378,6 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-void Function::outputPWM1(uint8_t pwm){
-
-    static uint8_t old_pwm = 0;
-
-    if (old_pwm != pwm)
-    {
-
-    	sConfigOC.Pulse = (uint32_t)(8)*pwm;
-
-        HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2);
-        HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-        HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_2);
-//        HAL_TIM_PWM_Init(&htim1);
-    }
-    old_pwm = pwm;
-
-}
-
-void Function::outputPWM0(uint8_t pwm)
-{
-
-    static uint8_t old_pwm = 0;
-
-    if (old_pwm != pwm)
-    {
-
-        sConfigOC.Pulse = (uint32_t)((8)*pwm);
-
-        HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3);
-        HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
-        HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_3);
-    }
-    old_pwm = pwm;
-
-}
 
 
 /* USER CODE END 4 */

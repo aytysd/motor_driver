@@ -5,11 +5,11 @@
  *      Author: Ayato Yoshida
  */
 
-#include "General.hpp"
 #include "main.h"
+#include "Encoder.hpp"
 
 
-void Function::EN_1(void){
+void Encoder::EN_1(void){
 
 
 
@@ -38,7 +38,7 @@ void Function::EN_1(void){
 
 
 }
-void Function::EN_3(void){
+void Encoder::EN_3(void){
 
 
 
@@ -68,5 +68,9 @@ void Function::EN_3(void){
 
 }
 
-int Function::pulse_cnt = 0;
+int Encoder::get_pulse_cnt(){
+	return this -> pulse_cnt;
+}
+
+int Encoder::pulse_cnt = 0;
 

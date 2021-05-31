@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include "PWM.hpp"
 #include "Feedback.hpp"
+#include "Encoder.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,8 +55,8 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-Function* function = new Function();
 Feedback* feedback = new Feedback();
+Encoder* encoder = new Encoder();
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -213,7 +214,7 @@ void EXTI1_IRQHandler(void)
   /* USER CODE END EXTI1_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
   /* USER CODE BEGIN EXTI1_IRQn 1 */
-  function -> EN_1();
+  encoder -> EN_1();
   /* USER CODE END EXTI1_IRQn 1 */
 }
 
@@ -227,7 +228,7 @@ void EXTI3_IRQHandler(void)
   /* USER CODE END EXTI3_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_3);
   /* USER CODE BEGIN EXTI3_IRQn 1 */
-  function -> EN_3();
+  encoder -> EN_3();
   /* USER CODE END EXTI3_IRQn 1 */
 }
 

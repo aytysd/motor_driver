@@ -1,7 +1,7 @@
 /*
- * Function.hpp
+ * Encoder.hpp
  *
- *  Created on: 18 May 2021
+ *  Created on: 31 May 2021
  *
  *@Author: Ayato Yoshida
  *
@@ -16,21 +16,19 @@
  *@Usertouch(functionname)&_(variable_name)
  *
  */
-#ifndef INC_FUNCTION_HPP_
-#define INC_FUNCTION_HPP_
+#ifndef INC_ENCODER_HPP_
+#define INC_ENCODER_HPP_
 
-#include "main.h"
-
-class Function{
+class Encoder{
 public:
-
-    void outputPWM0(uint8_t pwm);
-    void outputPWM1(uint8_t pwm);
-
+    void EN_1(void);
+    void EN_3(void);
+    int get_pulse_cnt(void);
+private:
+    static int pulse_cnt;
 
 };
 
 
 
-
-#endif /* INC_FUNCTION_HPP_ */
+#endif /* INC_ENCODER_HPP_ */

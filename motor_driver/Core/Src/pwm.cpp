@@ -92,7 +92,14 @@ uint8_t PWM::trapezoid_control_2(uint8_t period, uint8_t target){
 		}
 
 		if(this -> old_pwm >= this -> target){
+
+			this -> Is_reached = true;
 			return this -> target;
+
+		}else{
+
+			this -> Is_reached = false;
+
 		}
 		this -> old_pwm++;
 		HAL_Delay(period);
@@ -109,7 +116,14 @@ uint8_t PWM::trapezoid_control_2(uint8_t period, uint8_t target){
 		}
 
 		if(this -> old_pwm <= this -> target){
+
+			this -> Is_reached = true;
 			return abs( this -> target);
+
+		}else{
+
+			this -> Is_reached = false;
+
 		}
 		this -> old_pwm--;
 		HAL_Delay(period);
@@ -193,7 +207,12 @@ void PWM::free(void){
 	delete function;
 }
 
+bool PWM::get_Is_reached(){
+
+	return this -> Is_reached;
+}
 
 
+bool PWM::Is_reached = false;
 
 

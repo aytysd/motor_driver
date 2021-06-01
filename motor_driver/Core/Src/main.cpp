@@ -48,7 +48,7 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 TIM_OC_InitTypeDef sConfigOC = {0};
-uint8_t Rxdata[2] = {0};
+uint8_t Rxdata[4] = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,7 +101,7 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
-//  HAL_TIM_Base_Start_IT(&htim6);
+  HAL_TIM_Base_Start_IT(&htim6);
   HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata, sizeof(Rxdata));
   PWM* pwm = new PWM();
   /* USER CODE END 2 */

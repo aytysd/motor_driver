@@ -29,7 +29,8 @@ Core/Src/stm32f3xx_it.o: ../Core/Src/stm32f3xx_it.cpp ../Core/Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h \
  ../Core/Inc/stm32f3xx_it.h ../Core/Inc/PWM.hpp ../Core/Inc/main.h \
- ../Core/Inc/Feedback.hpp ../Core/Inc/Encoder.hpp
+ ../Core/Inc/Feedback.hpp ../Core/Inc/Encoder.hpp \
+ ../Core/Inc/Function.hpp
 
 ../Core/Inc/main.h:
 
@@ -100,3 +101,5 @@ Core/Src/stm32f3xx_it.o: ../Core/Src/stm32f3xx_it.cpp ../Core/Inc/main.h \
 ../Core/Inc/Feedback.hpp:
 
 ../Core/Inc/Encoder.hpp:
+
+../Core/Inc/Function.hpp:

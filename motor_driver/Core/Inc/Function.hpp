@@ -24,6 +24,7 @@
 class Function{
 public:
 
+	static uint8_t additional_pwm;
     void outputPWM0(uint8_t pwm);
     void outputPWM1(uint8_t pwm);
 

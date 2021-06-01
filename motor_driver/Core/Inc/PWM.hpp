@@ -39,7 +39,11 @@ private:
     void ccw(uint8_t pwm);
     void brake(void);
     void free(void);
+
+    static bool Is_reached;
 public:
+
+    bool get_Is_reached(void);
     void control_PWM();
 
 	PWM(){

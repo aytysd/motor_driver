@@ -26,6 +26,7 @@
 #include "PWM.hpp"
 #include "Feedback.hpp"
 #include "Encoder.hpp"
+#include "Function.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,8 +56,9 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-Feedback* feedback = new Feedback();
 Encoder* encoder = new Encoder();
+PWM* pwm = new PWM();
+Feedback* feedback = new Feedback();
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -256,7 +258,10 @@ void TIM6_DAC1_IRQHandler(void)
   /* USER CODE END TIM6_DAC1_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC1_IRQn 1 */
-  feedback -> pwm_calc();
+
+  Function::additional_pwm = feedback -> PID_control();
+
+
   /* USER CODE END TIM6_DAC1_IRQn 1 */
 }
 

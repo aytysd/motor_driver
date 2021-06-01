@@ -30,7 +30,7 @@ void Feedback::reset_integral_diff(){
 }
 
 
-uint8_t Feedback::PID_control(){
+int Feedback::PID_control(){
 
 	Encoder* encoder = new Encoder();
 
@@ -52,28 +52,28 @@ uint8_t Feedback::PID_control(){
 
 
 
-uint8_t Feedback::P_control(uint16_t target_speed, uint16_t current_speed ){
+int Feedback::P_control(uint16_t target_speed, uint16_t current_speed ){
 
 
-	uint16_t speed_diff = abs( target_speed - current_speed );
+	int speed_diff = target_speed - current_speed;
 
-	uint8_t add_pwm = speed_diff / 23.677;
+	int add_pwm = speed_diff / 23.677;
 
 	return add_pwm;
 
 }
 
-uint8_t Feedback::D_control(uint16_t target_speed, uint16_t current_speed){
+int Feedback::D_control(uint16_t target_speed, uint16_t current_speed){
 
 	static uint16_t old_speed = current_speed;
-	uint8_t diff = current_speed - old_speed;
+	int diff = current_speed - old_speed;
 
 	old_speed = current_speed;
 
 	return diff;
 }
 
-uint8_t Feedback::I_control(uint16_t target_speed, uint16_t current_speed){
+int Feedback::I_control(uint16_t target_speed, uint16_t current_speed){
 
 
 	this -> integral_diff += ( target_speed - current_speed );

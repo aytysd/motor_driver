@@ -34,7 +34,7 @@ int Feedback::PID_control(){
 
 	Encoder* encoder = new Encoder();
 
-	uint16_t target_speed = ( Rxdata[2] << 8 ) | (Rxdata[3]);
+	uint16_t target_speed = ( Rxdata[2] << 8 ) | ( Rxdata[3] );
 
 	static int old_pulse_cnt = encoder -> get_pulse_cnt();
 	int current_pulse_cnt = encoder -> get_pulse_cnt();
@@ -63,16 +63,6 @@ int Feedback::P_control(uint16_t target_speed, uint16_t current_speed ){
 
 }
 
-int Feedback::D_control(uint16_t target_speed, uint16_t current_speed){
-
-	static uint16_t old_speed = current_speed;
-	int diff = current_speed - old_speed;
-
-	old_speed = current_speed;
-
-	return diff;
-}
-
 int Feedback::I_control(uint16_t target_speed, uint16_t current_speed){
 
 
@@ -84,12 +74,19 @@ int Feedback::I_control(uint16_t target_speed, uint16_t current_speed){
 
 
 
+int Feedback::D_control(uint16_t target_speed, uint16_t current_speed){
 
-double Feedback::speed_calc(int pulse){
+	static uint16_t old_speed = current_speed;
+	int diff = current_speed - old_speed;
 
-	this -> speed = CIRCUMFERENCE * ((double)pulse / PPR );
-	return this -> speed;
+	old_speed = current_speed;
+
+	return diff;
 }
+
+
+
+
 
 void Feedback::pwm_calc(){
 	Encoder* encoder = new Encoder();

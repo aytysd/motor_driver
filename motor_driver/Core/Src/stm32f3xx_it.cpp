@@ -259,19 +259,15 @@ void TIM6_DAC1_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC1_IRQn 1 */
 
-  if( pwm -> get_Is_reached == true ){
+  Function::additional_pwm = feedback -> PID_control();
 
-	  Function::additional_pwm = feedback -> PID_control();
-
-  }else{
+  if( pwm -> get_Is_reached == false )
+  {
 
 	  Function::additional_pwm = 0;
 	  feedback -> reset_integral_diff();
 
   }
-
-
-
 
   /* USER CODE END TIM6_DAC1_IRQn 1 */
 }

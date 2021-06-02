@@ -25,17 +25,18 @@ uint8_t Function::additional_pwm = 0;
 
 void Function::outputPWM1(uint8_t pwm){
 
-    PWM* pwm = new PWM();
 
-    if( pwm -> get_Is_reached == true ){
-    	pwm += this -> additional_pwm;
-    }
 
 	sConfigOC.Pulse = (uint32_t)((8)*pwm);
 
 	if( sConfigOC.Pulse >= 799 ){
 		sConfigOC.Pulse = 799;
 	}
+
+	if ( sConfigOC.Pulse <= 0 ){
+		sConfigOC.Pulse = 0;
+	}
+
 
 
 	HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2);
@@ -44,23 +45,19 @@ void Function::outputPWM1(uint8_t pwm){
 	HAL_TIM_PWM_Init(&htim1);
 
 
-    delete pwm;
 }
 
 void Function::outputPWM0(uint8_t pwm)
 {
-
-    PWM* pwm = new PWM();
-
-    if( pwm -> get_Is_reached() == true ){
-    	pwm += this -> additional_pwm;
-    }
 
 
 	sConfigOC.Pulse = (uint32_t)((8)*pwm);
 
 	if( sConfigOC.Pulse >= 799 ){
 		sConfigOC.Pulse = 799;
+	}
+	if ( sConfigOC.Pulse <= 0 ){
+		sConfigOC.Pulse = 0;
 	}
 
 	HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3);
@@ -69,7 +66,6 @@ void Function::outputPWM0(uint8_t pwm)
 	HAL_TIM_PWM_Init(&htim1);
 
 
-    delete pwm;
 
 }
 

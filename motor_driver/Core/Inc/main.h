@@ -89,8 +89,7 @@ extern uint8_t Rxdata[4];
 #define PPR 2048
 #define RADIUS 53.5 //mm
 #define CIRCUMFERENCE 336.150413
-#define DT 1 / (64*10^6 / (( htim1.Init.Prescaler + 1) * ( htim1.Init.Period + 1 )))
-
+#define DT 0.1
 #define PERIOD 50
 /* USER CODE END Private defines */
 

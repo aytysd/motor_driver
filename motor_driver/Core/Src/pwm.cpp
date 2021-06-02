@@ -54,6 +54,7 @@ void PWM::control_PWM(void){
 
         if (this -> direction == CW)
         {
+
         	this -> cw(pwm);
         	this -> old_pwm = pwm;
         }
@@ -154,6 +155,11 @@ void PWM::cw(uint8_t pwm){
 
 	Function * function = new Function();
 
+    if( this -> get_Is_reached() == true ){
+    	pwm += Function::additional_pwm;
+    }
+
+
 	function -> outputPWM0(pwm);
 	function -> outputPWM1(99);
 
@@ -167,6 +173,11 @@ void PWM::cw(uint8_t pwm){
 void PWM::ccw(uint8_t pwm){
 
 	Function * function = new Function();
+
+    if( this -> get_Is_reached() == true ){
+    	pwm +=  Function::additional_pwm;
+    }
+
 
 	function -> outputPWM0(1);
 	function -> outputPWM1(100-pwm);
@@ -187,6 +198,8 @@ void PWM::brake(void){
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
 
+	this -> Is_reached = false;
+
 	this -> old_pwm = 0;
 
 	delete function;
@@ -201,6 +214,8 @@ void PWM::free(void){
 
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
+
+	this -> Is_reached = false;
 
 	HAL_Delay(500);
 

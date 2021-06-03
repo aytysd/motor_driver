@@ -26,7 +26,6 @@ public:
 
 	int PID_control(void);
 	void reset_integral_diff(void);
-	int get_PID_pwm(void);
 	static uint8_t PID_pwm;
 
 	void pwm_calc(void);

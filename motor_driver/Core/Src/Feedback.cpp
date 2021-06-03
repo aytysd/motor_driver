@@ -18,10 +18,6 @@ int Feedback::integral_diff = 0;
 uint8_t Feedback::PID_pwm  = 0;
 int Feedback::current_pwm = 0;
 
-int Feedback::get_PID_pwm()
-{
-	return this -> PID_pwm;
-}
 
 void Feedback::reset_integral_diff(){
 

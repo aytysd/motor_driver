@@ -32,6 +32,7 @@ void PWM::control_PWM(void){
 	{
 	    this -> direction = 0b00000011&Rxdata[0];
 	    this -> target_buff = Rxdata[1];
+	    this -> PID_Enabled = Rxdata[0]>>6;
 
 	    switch(this -> direction){
 	    case CW:
@@ -136,8 +137,8 @@ void PWM::cw(uint8_t pwm){
 	Function* function = new Function();
 	Feedback* feedback = new Feedback();
 
-    if( this -> get_Is_reached() == true ){
-    	pwm += feedback -> get_PID_pwm();
+    if( this -> get_Is_reached() == true && this -> PID_Enabled == true ){
+    	pwm += feedback::PID_pwm;
     }
 
 
@@ -157,8 +158,8 @@ void PWM::ccw(uint8_t pwm){
 	Function * function = new Function();
 	Feedback* feedback = new Feedback();
 
-    if( this -> get_Is_reached() == true ){
-    	pwm +=  feedback -> get_PID_pwm();
+    if( this -> get_Is_reached() == true && this -> PID_Enabled == true ){
+    	pwm +=  feedback::PID_pwm;
     }
 
 

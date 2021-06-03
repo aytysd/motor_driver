@@ -26,27 +26,22 @@ uint8_t PWM::set_motor_number(){
 }
 void PWM::control_PWM(void){
 
-	this -> motor_number = (0b00111100&Rxdata[0])>>2;
 
-	if( this -> motor_number == this -> set_motor_number() )
-	{
-	    this -> direction = 0b00000011&Rxdata[0];
-	    this -> target_buff = Rxdata[1];
-	    this -> PID_Enabled = Rxdata[0]>>6;
+	this -> direction = 0b00000011&Rxdata[0];
+	this -> target_buff = Rxdata[1];
+	this -> PID_Enabled = Rxdata[0]>>6;
 
-	    switch(this -> direction){
-	    case CW:
-	    	this -> target = (int)this -> target_buff;
-	    	break;
-	    case CCW:
-	    	this -> target = (-1) * (int)this -> target_buff;
-	    	break;
-	    default:
-	    	break;
-	    }
-
-
+	switch(this -> direction){
+	case CW:
+		this -> target = (int)this -> target_buff;
+		break;
+	case CCW:
+		this -> target = (-1) * (int)this -> target_buff;
+		break;
+	default:
+		break;
 	}
+
 
     uint8_t pwm = 0;
 

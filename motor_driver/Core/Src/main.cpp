@@ -49,6 +49,7 @@ UART_HandleTypeDef huart2;
 /* USER CODE BEGIN PV */
 TIM_OC_InitTypeDef sConfigOC = {0};
 uint8_t Rxdata[4] = {0};
+uint8_t Rxdata_buff[4] = {0};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -59,7 +60,17 @@ static void MX_TIM1_Init(void);
 static void MX_TIM6_Init(void);
 /* USER CODE BEGIN PFP */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef*UartHandle){
-	HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata, sizeof(Rxdata));
+	HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata_buff, sizeof(Rxdata_buff));
+
+	PWM* pwm = new PWM();
+	if( pwm -> set_motor_number() == (0b00111100&Rxdata_buff[0])>>2 )
+	{
+		for(int i = 0; i<4; i++)
+		{
+			Rxdata[i] = Rxdata_buff[i];
+		}
+	}
+	delete pwm;
 }
 /* USER CODE END PFP */
 
@@ -102,7 +113,7 @@ int main(void)
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim6);
-  HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata, sizeof(Rxdata));
+  HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata_buff, sizeof(Rxdata_buff));
   PWM* pwm = new PWM();
   /* USER CODE END 2 */
 

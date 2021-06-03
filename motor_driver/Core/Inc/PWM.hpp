@@ -27,7 +27,6 @@ private:
 
 
 	int old_pwm;
-    uint8_t motor_number;
     uint8_t direction;
     uint8_t target_buff;
     int target;
@@ -49,7 +48,6 @@ public:
 
 	PWM(){
 		this -> old_pwm = 0;
-		this -> motor_number = 0;
 		this -> direction = FREE;
 		this -> target_buff = 0;
 		this -> target = 0;

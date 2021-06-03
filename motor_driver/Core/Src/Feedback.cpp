@@ -33,10 +33,9 @@ int Feedback::PID_control(){
 	PWM* pwm = new PWM();
 
 	uint16_t target_speed = 0;
-	if( (0b00111100&Rxdata[0])>>2 == pwm -> set_motor_number() )
-	{
-		target_speed = ( Rxdata[2] << 8 ) | ( Rxdata[3] );
-	}
+
+	target_speed = ( Rxdata[2] << 8 ) | ( Rxdata[3] );
+
 	delete pwm;
 
 	uint16_t current_speed = this -> current_speed_calc();

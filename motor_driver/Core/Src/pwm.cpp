@@ -26,64 +26,55 @@ uint8_t PWM::set_motor_number(){
 }
 void PWM::control_PWM(void){
 
+	this -> motor_number = (0b00111100&Rxdata[0])>>2;
+
+	if( this -> motor_number == this -> set_motor_number() )
+	{
+	    this -> direction = 0b00000011&Rxdata[0];
+	    this -> target_buff = Rxdata[1];
+
+	    switch(this -> direction){
+	    case CW:
+	    	this -> target = (int)this -> target_buff;
+	    	break;
+	    case CCW:
+	    	this -> target = (-1) * (int)this -> target_buff;
+	    	break;
+	    default:
+	    	break;
+	    }
 
 
-    this -> motor_number = (0b00111100&Rxdata[0])>>2;
-    this -> direction = 0b00000011&Rxdata[0];
-    this -> target_buff = Rxdata[1];
+	}
 
     uint8_t pwm = 0;
 
-    switch(this -> direction){
-    case CW:
-    	this -> target = (int)this -> target_buff;
-    	break;
-    case CCW:
-    	this -> target = (-1) * (int)this -> target_buff;
-    	break;
-    default:
-    	break;
-    }
+	pwm = this -> trapezoid_control(PERIOD, this -> target);
 
+	if (this -> direction == CW)
+	{
 
-
-
-    if (this -> motor_number == this -> set_motor_number())
-    {
-    	pwm = this -> trapezoid_control_2(PERIOD, this -> target);
-
-        if (this -> direction == CW)
-        {
-
-        	this -> cw(pwm);
-        	this -> old_pwm = pwm;
-        }
-        else if (this -> direction == CCW)
-        {
-        	this -> ccw(pwm);
-        	this -> old_pwm = pwm;
-        }
-        else if (this -> direction == BRAKE)
-        {
-        	this -> brake();
-        }
-        else if (this -> direction == FREE)
-        {
-        	this -> free();
-        	this -> old_pwm = Feedback::current_pwm;
-        }
-    }
-
-
-
-
-
-
-
+		this -> cw(pwm);
+		this -> old_pwm = pwm;
+	}
+	else if (this -> direction == CCW)
+	{
+		this -> ccw(pwm);
+		this -> old_pwm = pwm;
+	}
+	else if (this -> direction == BRAKE)
+	{
+		this -> brake();
+	}
+	else if (this -> direction == FREE)
+	{
+		this -> free();
+		this -> old_pwm = Feedback::current_pwm;
+	}
 
 }
 
-uint8_t PWM::trapezoid_control_2(uint8_t period, uint8_t target){
+uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target){
 	switch(this -> direction){
 	case CW:
 
@@ -139,24 +130,14 @@ uint8_t PWM::trapezoid_control_2(uint8_t period, uint8_t target){
 	}
 }
 
-uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target){
-
-	if(this -> old_pwm >= target){
-		return target;
-	}
-	this -> old_pwm++;
-	HAL_Delay(period);
-
-	return this -> old_pwm;
-
-}
 
 void PWM::cw(uint8_t pwm){
 
-	Function * function = new Function();
+	Function* function = new Function();
+	Feedback* feedback = new Feedback();
 
     if( this -> get_Is_reached() == true ){
-    	pwm += Function::additional_pwm;
+    	pwm += feedback -> get_PID_pwm();
     }
 
 
@@ -168,14 +149,16 @@ void PWM::cw(uint8_t pwm){
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
 
 	delete function;
+	delete feedback;
 
 }
 void PWM::ccw(uint8_t pwm){
 
 	Function * function = new Function();
+	Feedback* feedback = new Feedback();
 
     if( this -> get_Is_reached() == true ){
-    	pwm +=  Function::additional_pwm;
+    	pwm +=  feedback -> get_PID_pwm();
     }
 
 
@@ -186,11 +169,14 @@ void PWM::ccw(uint8_t pwm){
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
 
 	delete function;
+	delete feedback;
 
 }
 void PWM::brake(void){
 
 	Function * function = new Function();
+
+	this -> free();
 
 	function -> outputPWM0(0);
 	function -> outputPWM1(100);

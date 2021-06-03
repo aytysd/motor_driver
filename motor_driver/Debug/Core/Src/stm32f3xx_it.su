@@ -12,5 +12,5 @@ stm32f3xx_it.cpp:212:6:void EXTI1_IRQHandler()	8	static
 stm32f3xx_it.cpp:226:6:void EXTI3_IRQHandler()	8	static
 stm32f3xx_it.cpp:240:6:void USART2_IRQHandler()	8	static
 stm32f3xx_it.cpp:254:6:void TIM6_DAC1_IRQHandler()	8	static
-stm32f3xx_it.cpp:266:1:void __static_initialization_and_destruction_0(int, int)	24	static
-stm32f3xx_it.cpp:266:1:cpp)	8	static
+stm32f3xx_it.cpp:273:1:void __static_initialization_and_destruction_0(int, int)	24	static
+stm32f3xx_it.cpp:273:1:cpp)	8	static

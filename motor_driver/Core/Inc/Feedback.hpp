@@ -26,17 +26,22 @@ public:
 
 	int PID_control(void);
 	void reset_integral_diff(void);
+	int get_PID_pwm(void);
+	static uint8_t PID_pwm;
 
 	void pwm_calc(void);
 	static int current_pwm;
 
 private:
 
+
 	static int integral_diff;
 
+
+	uint16_t current_speed_calc(void);
 	int P_control(uint16_t target_speed, uint16_t current_speed);
 	int I_control(uint16_t target_speed, uint16_t current_speed);
-	int D_control(uint16_t target_speed, uint16_t current_speed);
+	int D_control(uint16_t current_speed);
 };
 
 

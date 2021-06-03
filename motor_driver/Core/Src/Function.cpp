@@ -21,7 +21,6 @@
 #include "Function.hpp"
 #include "PWM.hpp"
 
-uint8_t Function::additional_pwm = 0;
 
 void Function::outputPWM1(uint8_t pwm){
 

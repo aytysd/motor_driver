@@ -12,7 +12,8 @@
 #include "Function.hpp"
 
 
-uint8_t PWM::set_motor_number(){
+uint8_t PWM::set_motor_number()
+{
 	uint8_t motor_number = 0;
 
 	if (HAL_GPIO_ReadPin(MN_0_GPIO_Port, MN_0_Pin) == 0) motor_number = motor_number|0b1;
@@ -24,14 +25,17 @@ uint8_t PWM::set_motor_number(){
 
 
 }
-void PWM::control_PWM(void){
+
+void PWM::control_PWM(void)
+{
 
 
 	this -> direction = 0b00000011&Rxdata[0];
 	this -> target_buff = Rxdata[1];
 	this -> PID_Enabled = Rxdata[0]>>6;
 
-	switch(this -> direction){
+	switch(this -> direction)
+	{
 	case CW:
 		this -> target = (int)this -> target_buff;
 		break;
@@ -49,7 +53,6 @@ void PWM::control_PWM(void){
 
 	if (this -> direction == CW)
 	{
-
 		this -> cw(pwm);
 		this -> old_pwm = pwm;
 	}
@@ -61,30 +64,40 @@ void PWM::control_PWM(void){
 	else if (this -> direction == BRAKE)
 	{
 		this -> brake();
+		this -> old_pwm = 0;
 	}
 	else if (this -> direction == FREE)
 	{
 		this -> free();
-		this -> old_pwm = Feedback::current_pwm;
+
+		Feedback* feedback = new Feedback();
+		this -> old_pwm = feedback -> get_current_pwm;
+		delete feedback;
 	}
 
 }
 
-uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target){
-	switch(this -> direction){
+uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target)
+{
+	switch(this -> direction)
+	{
 	case CW:
 
-		if(this -> old_pwm < 0){
+		if(this -> old_pwm < 0)
+		{
 			this -> free();
 			this -> old_pwm = 0;
 		}
 
-		if(this -> old_pwm >= this -> target){
+		if(this -> old_pwm >= this -> target)
+		{
 
 			this -> Is_reached = true;
 			return this -> target;
 
-		}else{
+		}
+		else
+		{
 
 			this -> Is_reached = false;
 
@@ -98,17 +111,21 @@ uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target){
 		break;
 	case CCW:
 
-		if(this -> old_pwm > 0){
+		if(this -> old_pwm > 0)
+		{
 			this -> free();
 			this -> old_pwm = 0;
 		}
 
-		if(this -> old_pwm <= this -> target){
+		if(this -> old_pwm <= this -> target)
+		{
 
 			this -> Is_reached = true;
 			return abs( this -> target);
 
-		}else{
+		}
+		else
+		{
 
 			this -> Is_reached = false;
 
@@ -127,12 +144,14 @@ uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target){
 }
 
 
-void PWM::cw(uint8_t pwm){
+void PWM::cw(uint8_t pwm)
+{
 
 	Function* function = new Function();
 	Feedback* feedback = new Feedback();
 
-    if( this -> get_Is_reached() == true && this -> PID_Enabled == true ){
+    if( this -> get_Is_reached() == true && this -> PID_Enabled == true )
+    {
     	pwm += feedback::PID_pwm;
     }
 
@@ -148,12 +167,14 @@ void PWM::cw(uint8_t pwm){
 	delete feedback;
 
 }
-void PWM::ccw(uint8_t pwm){
+void PWM::ccw(uint8_t pwm)
+{
 
 	Function * function = new Function();
 	Feedback* feedback = new Feedback();
 
-    if( this -> get_Is_reached() == true && this -> PID_Enabled == true ){
+    if( this -> get_Is_reached() == true && this -> PID_Enabled == true )
+    {
     	pwm +=  feedback::PID_pwm;
     }
 
@@ -168,7 +189,8 @@ void PWM::ccw(uint8_t pwm){
 	delete feedback;
 
 }
-void PWM::brake(void){
+void PWM::brake(void)
+{
 
 	Function * function = new Function();
 
@@ -182,12 +204,12 @@ void PWM::brake(void){
 
 	this -> Is_reached = false;
 
-	this -> old_pwm = 0;
-
 	delete function;
 
 }
-void PWM::free(void){
+
+void PWM::free(void)
+{
 
 	Function * function = new Function();
 
@@ -204,7 +226,8 @@ void PWM::free(void){
 	delete function;
 }
 
-bool PWM::get_Is_reached(){
+bool PWM::get_Is_reached()
+{
 
 	return this -> Is_reached;
 }

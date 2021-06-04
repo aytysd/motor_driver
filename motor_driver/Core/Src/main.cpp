@@ -59,7 +59,8 @@ static void MX_USART2_UART_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM6_Init(void);
 /* USER CODE BEGIN PFP */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef*UartHandle){
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef*UartHandle)
+{
 	HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata_buff, sizeof(Rxdata_buff));
 
 	PWM* pwm = new PWM();
@@ -192,7 +193,7 @@ static void MX_TIM1_Init(void)
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 0;
+  htim1.Init.Prescaler = 1;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.Period = 799;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;

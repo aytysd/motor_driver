@@ -24,16 +24,16 @@
 class Feedback{
 public:
 
-	int PID_control(void);
-	void reset_integral_diff(void);
+	void PID_control(void);
+	void reset_PID(void);
 	static uint8_t PID_pwm;
 
 	void pwm_calc(void);
-	static int current_pwm;
+	int get_current_pwm(void);
 
 private:
 
-
+	static int current_pwm;
 	static int integral_diff;
 
 

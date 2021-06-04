@@ -22,17 +22,20 @@
 #include "PWM.hpp"
 
 
-void Function::outputPWM1(uint8_t pwm){
+void Function::outputPWM1(uint8_t pwm)
+{
 
 
 
 	sConfigOC.Pulse = (uint32_t)((8)*pwm);
 
-	if( sConfigOC.Pulse >= 799 ){
+	if( sConfigOC.Pulse >= 799 )
+	{
 		sConfigOC.Pulse = 799;
 	}
 
-	if ( sConfigOC.Pulse <= 0 ){
+	if ( sConfigOC.Pulse <= 0 )
+	{
 		sConfigOC.Pulse = 0;
 	}
 
@@ -52,10 +55,13 @@ void Function::outputPWM0(uint8_t pwm)
 
 	sConfigOC.Pulse = (uint32_t)((8)*pwm);
 
-	if( sConfigOC.Pulse >= 799 ){
+	if( sConfigOC.Pulse >= 799 )
+	{
 		sConfigOC.Pulse = 799;
 	}
-	if ( sConfigOC.Pulse <= 0 ){
+
+	if ( sConfigOC.Pulse <= 0 )
+	{
 		sConfigOC.Pulse = 0;
 	}
 

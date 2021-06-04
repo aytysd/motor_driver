@@ -25,7 +25,6 @@ class PWM{
 
 private:
 
-
 	int old_pwm;
     uint8_t direction;
     uint8_t target_buff;
@@ -46,13 +45,13 @@ public:
     bool get_Is_reached(void);
     void control_PWM();
 
-	PWM(){
+	PWM()
+    {
 		this -> old_pwm = 0;
 		this -> direction = FREE;
 		this -> target_buff = 0;
 		this -> target = 0;
 		this -> PID_Enabled = false;
-
 	}
 
 };

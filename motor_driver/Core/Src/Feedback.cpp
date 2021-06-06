@@ -15,7 +15,7 @@
 
 
 int Feedback::integral_diff = 0;
-uint8_t Feedback::PID_pwm  = 0;
+int Feedback::PID_pwm  = 0;
 int Feedback::current_pwm = 0;
 
 
@@ -33,14 +33,7 @@ void Feedback::reset_PID()
 void Feedback::PID_control()
 {
 
-
-	PWM* pwm = new PWM();
-
-	uint16_t target_speed = 0;
-
-	target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
-
-	delete pwm;
+	uint16_t target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
 
 	uint16_t current_speed = this -> current_speed_calc();
 

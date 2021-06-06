@@ -26,7 +26,7 @@ public:
 
 	void PID_control(void);
 	void reset_PID(void);
-	static uint8_t PID_pwm;
+	static int PID_pwm;
 
 	void pwm_calc(void);
 	int get_current_pwm(void);

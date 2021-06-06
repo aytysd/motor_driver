@@ -25,50 +25,63 @@
 void Function::outputPWM1(uint8_t pwm)
 {
 
+	static uint8_t old_pwm = 0;
 
-
-	sConfigOC.Pulse = (uint32_t)((8)*pwm);
-
-	if( sConfigOC.Pulse >= 799 )
+	if( old_pwm != pwm )
 	{
-		sConfigOC.Pulse = 799;
+
+		sConfigOC.Pulse = (uint32_t)((8)*pwm);
+
+		if( sConfigOC.Pulse >= 799 )
+		{
+			sConfigOC.Pulse = 799;
+		}
+
+		if ( sConfigOC.Pulse <= 0 )
+		{
+			sConfigOC.Pulse = 0;
+		}
+
+
+
+		HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2);
+		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+		HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_2);
+		HAL_TIM_PWM_Init(&htim1);
+
 	}
 
-	if ( sConfigOC.Pulse <= 0 )
-	{
-		sConfigOC.Pulse = 0;
-	}
 
-
-
-	HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-	HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_2);
-	HAL_TIM_PWM_Init(&htim1);
-
-
+	old_pwm = pwm;
 }
 
 void Function::outputPWM0(uint8_t pwm)
 {
+	static uint8_t old_pwm = 0;
 
-
-	sConfigOC.Pulse = (uint32_t)((8)*pwm);
-
-	if( sConfigOC.Pulse >= 799 )
+	if( old_pwm != pwm )
 	{
-		sConfigOC.Pulse = 799;
+		sConfigOC.Pulse = (uint32_t)((8)*pwm);
+
+		if( sConfigOC.Pulse >= 799 )
+		{
+			sConfigOC.Pulse = 799;
+		}
+
+		if ( sConfigOC.Pulse <= 0 )
+		{
+			sConfigOC.Pulse = 0;
+		}
+
+		HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3);
+		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+		HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_3);
+		HAL_TIM_PWM_Init(&htim1);
+
 	}
 
-	if ( sConfigOC.Pulse <= 0 )
-	{
-		sConfigOC.Pulse = 0;
-	}
+	old_pwm = pwm;
 
-	HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
-	HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_3);
-	HAL_TIM_PWM_Init(&htim1);
 
 
 

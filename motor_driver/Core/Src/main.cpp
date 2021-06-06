@@ -344,14 +344,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : MN_0_Pin */
-  GPIO_InitStruct.Pin = MN_0_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(MN_0_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : MN_1_Pin MN_2_Pin MN_3_Pin */
-  GPIO_InitStruct.Pin = MN_1_Pin|MN_2_Pin|MN_3_Pin;
+  /*Configure GPIO pins : MN_0_Pin MN_1_Pin MN_2_Pin MN_3_Pin */
+  GPIO_InitStruct.Pin = MN_0_Pin|MN_1_Pin|MN_2_Pin|MN_3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);

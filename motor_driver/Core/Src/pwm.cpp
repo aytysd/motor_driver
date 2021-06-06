@@ -170,7 +170,7 @@ void PWM::cw(uint8_t pwm)
 void PWM::ccw(uint8_t pwm)
 {
 
-	Function * function = new Function();
+	Function* function = new Function();
 	Feedback* feedback = new Feedback();
 
     if( this -> get_Is_reached() == true && this -> PID_Enabled == true )
@@ -192,7 +192,7 @@ void PWM::ccw(uint8_t pwm)
 void PWM::brake(void)
 {
 
-	Function * function = new Function();
+	Function* function = new Function();
 
 	this -> free();
 
@@ -211,7 +211,7 @@ void PWM::brake(void)
 void PWM::free(void)
 {
 
-	Function * function = new Function();
+	Function* function = new Function();
 
 	function -> outputPWM0(0);
 	function -> outputPWM1(0);
@@ -228,7 +228,6 @@ void PWM::free(void)
 
 bool PWM::get_Is_reached()
 {
-
 	return this -> Is_reached;
 }
 

@@ -26,9 +26,10 @@ class PWM{
 private:
 
 	int old_pwm;
+	int target;
+
     uint8_t direction;
-    uint8_t target_buff;
-    int target;
+
     bool PID_Enabled;
 
     uint8_t trapezoid_control(uint8_t period, uint8_t target);
@@ -49,7 +50,6 @@ public:
     {
 		this -> old_pwm = 0;
 		this -> direction = FREE;
-		this -> target_buff = 0;
 		this -> target = 0;
 		this -> PID_Enabled = false;
 	}

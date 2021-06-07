@@ -31,16 +31,15 @@ void PWM::control_PWM(void)
 
 
 	this -> direction = 0b00000011&Rxdata[0];
-	this -> target_buff = Rxdata[1];
 	this -> PID_Enabled = Rxdata[0]>>6;
 
 	switch(this -> direction)
 	{
 	case CW:
-		this -> target = (int)this -> target_buff;
+		this -> target = (int)Rxdata[1];
 		break;
 	case CCW:
-		this -> target = (-1) * (int)this -> target_buff;
+		this -> target = (-1) * (int)Rxdata[1];
 		break;
 	default:
 		break;

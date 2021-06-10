@@ -19,6 +19,25 @@ int Feedback::PID_pwm  = 0;
 int Feedback::current_pwm = 0;
 
 
+int Feedback::speed_calc(uint16_t target_speed)
+{
+	Encoder* encoder = new Encoder();
+
+	static int old_pulse_cnt = encoder -> get_pulse_cnt();
+	int current_pulse_cnt = encoder -> get_pulse_cnt();
+
+	uint16_t current_speed = RADIUS * 2 * M_PI * abs( (int)(current_pulse_cnt - old_pulse_cnt) ) / ( PPR * DT );
+
+	int diff_percent = (( current_speed - target_speed ) / target_speed) * 100 ;
+
+	old_pulse_cnt = current_pulse_cnt;
+
+	delete encoder;
+
+	return diff_percent;
+}
+
+
 void Feedback::reset_PID()
 {
 

@@ -28,6 +28,8 @@ public:
 	void reset_PID(void);
 	static int PID_pwm;
 
+
+	int speed_calc(uint16_t target_speed);
 	void pwm_calc(void);
 	int get_current_pwm(void);
 

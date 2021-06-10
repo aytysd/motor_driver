@@ -1,8 +1,8 @@
 PWM.cpp:15:9:uint8_t PWM::set_motor_number()	24	static
-PWM.cpp:27:6:void PWM::control_PWM()	32	static
-PWM.cpp:77:9:uint8_t PWM::trapezoid_control(uint8_t, uint8_t)	16	static
-PWM.cpp:134:6:void PWM::cw(uint8_t)	24	static
-PWM.cpp:155:6:void PWM::ccw(uint8_t)	24	static
-PWM.cpp:175:6:void PWM::brake()	24	static
-PWM.cpp:194:6:void PWM::free()	24	static
-PWM.cpp:211:6:bool PWM::get_Is_reached()	16	static
+PWM.cpp:29:6:void PWM::control_PWM()	24	static
+PWM.cpp:79:9:uint8_t PWM::trapezoid_control(uint8_t, uint8_t)	16	static
+PWM.cpp:149:6:void PWM::cw(uint8_t)	24	static
+PWM.cpp:172:6:void PWM::ccw(uint8_t)	24	static
+PWM.cpp:194:6:void PWM::brake()	24	static
+PWM.cpp:213:6:void PWM::free()	24	static
+PWM.cpp:231:6:bool PWM::get_Is_reached()	16	static

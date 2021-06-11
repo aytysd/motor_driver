@@ -21,10 +21,15 @@
 
 #include "main.h"
 
-class Feedback{
+#define Kp 1 / 23.677
+#define Ki 23.677 * 10
+#define Kd 10
+
+class Feedback
+{
 public:
 
-	void PID_control(void);
+	int PID_control(void);
 	void reset_PID(void);
 	static int PID_pwm;
 
@@ -39,7 +44,6 @@ private:
 	static int integral_diff;
 
 
-	uint16_t current_speed_calc(void);
 	int P_control(uint16_t target_speed, uint16_t current_speed);
 	int I_control(uint16_t target_speed, uint16_t current_speed);
 	int D_control(uint16_t current_speed);

@@ -47,6 +47,8 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 int speed_diff = 0;
+int PID_pwm = 0;
+uint16_t target_speed = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -259,14 +261,18 @@ void TIM6_DAC1_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC1_IRQn 1 */
 
+  target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
+
   feedback -> pwm_calc();
-  feedback -> PID_control();
-  speed_diff = feedback -> speed_calc( (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] )) );
+  PID_pwm = feedback -> PID_control();
+
+  speed_diff = feedback -> speed_calc( target_speed );
 
   if( pwm -> get_Is_reached() == false )
   {
 	  feedback -> reset_PID();
   }
+
 
   /* USER CODE END TIM6_DAC1_IRQn 1 */
 }

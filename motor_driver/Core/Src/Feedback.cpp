@@ -18,6 +18,21 @@ int Feedback::integral_diff = 0;
 int Feedback::PID_pwm  = 0;
 int Feedback::current_pwm = 0;
 
+uint16_t Feedback::current_speed_calc()
+{
+	Encoder* encoder = new Encoder();
+
+	static int old_pulse_cnt = encoder -> get_pulse_cnt();
+	int current_pulse_cnt = encoder -> get_pulse_cnt();
+
+	uint16_t current_speed = RADIUS * 2 * M_PI * abs( (int)( current_pulse_cnt - old_pulse_cnt) ) / ( PPR * DT );
+
+	old_pulse_cnt = current_pulse_cnt;
+	delete encoder;
+
+	return current_speed;
+
+}
 
 int Feedback::speed_calc(uint16_t target_speed)
 {

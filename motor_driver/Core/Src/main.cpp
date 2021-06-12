@@ -47,7 +47,6 @@ TIM_HandleTypeDef htim6;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
-TIM_OC_InitTypeDef sConfigOC = {0};
 uint8_t Rxdata[4] = {0};
 uint8_t Rxdata_buff[4] = {0};
 /* USER CODE END PV */
@@ -122,7 +121,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  pwm -> control_PWM();
+	  pwm -> control_PWM();
+
+/*
+	  for( int i = 0; i < 30; i++)
+	  {
+		  pwm -> cw(i);
+		  HAL_Delay(500);
+	  }
+*/
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -187,13 +194,14 @@ static void MX_TIM1_Init(void)
   /* USER CODE END TIM1_Init 0 */
 
   TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
 
   /* USER CODE BEGIN TIM1_Init 1 */
 
   /* USER CODE END TIM1_Init 1 */
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 1;
+  htim1.Init.Prescaler = 0;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.Period = 799;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -221,12 +229,11 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
-  __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_2);
+  sConfigOC.OCMode = TIM_OCMODE_ASSYMETRIC_PWM2;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
   }
-  __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_3);
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
   sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
   sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;

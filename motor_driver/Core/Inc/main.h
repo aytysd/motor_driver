@@ -38,7 +38,6 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern UART_HandleTypeDef huart2;
-extern TIM_OC_InitTypeDef sConfigOC;
 extern TIM_HandleTypeDef htim1;
 /* USER CODE END ET */
 

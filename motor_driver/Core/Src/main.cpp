@@ -123,13 +123,6 @@ int main(void)
   {
 	  pwm -> control_PWM();
 
-/*
-	  for( int i = 0; i < 30; i++)
-	  {
-		  pwm -> cw(i);
-		  HAL_Delay(500);
-	  }
-*/
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

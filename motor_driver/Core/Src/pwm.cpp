@@ -120,7 +120,7 @@ uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target)
 		{
 
 			this -> Is_reached = true;
-			return abs( this -> target);
+			return (uint8_t)abs( this -> target );
 
 		}
 		else
@@ -161,6 +161,8 @@ void PWM::cw(uint8_t pwm)
 	function -> outputPWM0(pwm);
 	function -> outputPWM1(99);
 
+	HAL_TIM_PWM_Init(&htim1);
+
 
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
@@ -184,6 +186,8 @@ void PWM::ccw(uint8_t pwm)
 	function -> outputPWM0(1);
 	function -> outputPWM1(100-pwm);
 
+	HAL_TIM_PWM_Init(&htim1);
+
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
 
@@ -201,6 +205,8 @@ void PWM::brake(void)
 	function -> outputPWM0(0);
 	function -> outputPWM1(100);
 
+	HAL_TIM_PWM_Init(&htim1);
+
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
 
@@ -217,6 +223,8 @@ void PWM::free(void)
 
 	function -> outputPWM0(0);
 	function -> outputPWM1(0);
+
+	HAL_TIM_PWM_Init(&htim1);
 
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);

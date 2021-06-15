@@ -46,9 +46,10 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-int speed_diff = 0;
+uint16_t current_speed = 0;
 int PID_pwm = 0;
 uint16_t target_speed = 0;
+int speed_diff = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -266,7 +267,8 @@ void TIM6_DAC1_IRQHandler(void)
   feedback -> pwm_calc();
   PID_pwm = feedback -> PID_control();
 
-  speed_diff = feedback -> speed_calc( target_speed );
+  speed_diff = feedback -> speed_diff_calc( target_speed );
+  current_speed = feedback -> current_speed_calc();
 
   if( pwm -> get_Is_reached() == false )
   {

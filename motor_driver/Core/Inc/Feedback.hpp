@@ -34,7 +34,9 @@ public:
 	static int PID_pwm;
 
 
-	int speed_calc(uint16_t target_speed);
+	int speed_diff_calc(uint16_t target_speed);
+	uint16_t current_speed_calc();
+
 	void pwm_calc(void);
 	int get_current_pwm(void);
 
@@ -43,7 +45,7 @@ private:
 	static int current_pwm;
 	static int integral_diff;
 
-	uint16_t current_speed_calc();
+
 	int P_control(uint16_t target_speed, uint16_t current_speed);
 	int I_control(uint16_t target_speed, uint16_t current_speed);
 	int D_control(uint16_t current_speed);

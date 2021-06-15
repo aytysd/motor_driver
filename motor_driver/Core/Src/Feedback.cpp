@@ -34,7 +34,7 @@ uint16_t Feedback::current_speed_calc()
 
 }
 
-int Feedback::speed_calc(uint16_t target_speed)
+int Feedback::speed_diff_calc(uint16_t target_speed)
 {
 
 	Encoder* encoder = new Encoder();

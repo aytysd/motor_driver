@@ -33,6 +33,8 @@ public:
 	void reset_PID(void);
 	static int prp_pwm;
 	static int PID_pwm;
+	static bool target_changed;
+	static uint16_t current_target_speed;
 
 
 	int speed_diff_calc(uint16_t target_speed, uint16_t current_speed );

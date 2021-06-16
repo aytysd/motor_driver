@@ -90,18 +90,16 @@ uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target)
 
 		if(this -> old_pwm >= this -> target)
 		{
-
 			this -> Is_reached = true;
-			return this -> target;
-
 		}
 		else
 		{
 
 			this -> Is_reached = false;
+			this -> old_pwm++;
 
 		}
-		this -> old_pwm++;
+
 		HAL_Delay(period);
 
 		return (uint8_t)this -> old_pwm;
@@ -120,16 +118,15 @@ uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target)
 		{
 
 			this -> Is_reached = true;
-			return (uint8_t)abs( this -> target );
-
 		}
 		else
 		{
 
 			this -> Is_reached = false;
+			this -> old_pwm--;
 
 		}
-		this -> old_pwm--;
+
 		HAL_Delay(period);
 
 		return (uint8_t)abs(this -> old_pwm);
@@ -155,6 +152,7 @@ void PWM::cw(uint8_t pwm)
     if( this -> get_Is_reached() == true && this -> PID_Enabled == true )
     {
     	pwm += Feedback::PID_pwm;
+    	this -> old_pwm += Feedback::PID_pwm;
     }
 
 
@@ -180,6 +178,7 @@ void PWM::ccw(uint8_t pwm)
     if( this -> get_Is_reached() == true && this -> PID_Enabled == true )
     {
     	pwm += Feedback::PID_pwm;
+    	this -> old_pwm += Feedback::PID_pwm;
     }
 
 

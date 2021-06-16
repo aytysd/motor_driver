@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 #include "math.h"
 #include "PWM.hpp"
+#include "Feedback.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -69,6 +70,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef*UartHandle)
 		{
 			Rxdata[i] = Rxdata_buff[i];
 		}
+		if( (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] )) != Feedback::current_target_speed )
+		{
+			Feedback::target_changed = true;
+		}
+
 	}
 	delete pwm;
 }

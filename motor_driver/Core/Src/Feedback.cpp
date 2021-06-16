@@ -18,6 +18,8 @@ int Feedback::integral_diff = 0;
 int Feedback::PID_pwm  = 0;
 int Feedback::current_pwm = 0;
 int Feedback::prp_pwm = 0;
+bool Feedback::target_changed = false;
+uint16_t Feedback::current_target_speed = 0;
 
 uint16_t Feedback::current_speed_calc()
 {
@@ -51,6 +53,7 @@ void Feedback::reset_PID()
 	this -> integral_diff = 0;
 	this -> PID_pwm = 0;
 
+	this -> target_changed = false;
 	return;
 
 }
@@ -67,10 +70,8 @@ int Feedback::PID_control(uint16_t current_speed)
 	}
 	else
 	{
-		Feedback::PID_pwm = this -> P_control(target_speed, current_speed) - this -> D_control(current_speed) + this -> I_control(target_speed, current_speed);
+		this -> PID_pwm = this -> P_control(target_speed, current_speed) - this -> D_control(current_speed) + this -> I_control(target_speed, current_speed);
 	}
-
-
 
 	return this -> PID_pwm;
 }

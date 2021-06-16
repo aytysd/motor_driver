@@ -262,7 +262,7 @@ void TIM6_DAC1_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC1_IRQn 1 */
 
-
+  Feedback::current_target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
   current_speed = feedback -> current_speed_calc();
 //  feedback -> pwm_calc();
   PID_pwm = feedback -> PID_control( current_speed );
@@ -270,7 +270,7 @@ void TIM6_DAC1_IRQHandler(void)
   speed_diff = feedback -> speed_diff_calc( (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] )), current_speed );
 
 
-  if( pwm -> get_Is_reached() == false )
+  if( pwm -> get_Is_reached() == false || Feedback::target_changed == true )
   {
 	  feedback -> reset_PID();
   }

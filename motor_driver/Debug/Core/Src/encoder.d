@@ -1,4 +1,4 @@
-Core/Src/Encoder.o: ../Core/Src/Encoder.cpp ../Core/Inc/main.h \
+Core/Src/encoder.o: ../Core/Src/encoder.cpp ../Core/Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h \
  ../Core/Inc/stm32f3xx_hal_conf.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h \

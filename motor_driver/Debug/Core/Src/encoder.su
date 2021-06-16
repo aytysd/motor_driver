@@ -1,2 +1,2 @@
-Encoder.cpp:11:6:void Encoder::EN_1()	16	static
-Encoder.cpp:43:6:void Encoder::EN_3()	16	static
+encoder.cpp:11:6:void Encoder::EN_3()	16	static
+encoder.cpp:43:6:void Encoder::EN_1()	16	static

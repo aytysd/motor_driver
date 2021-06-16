@@ -8,7 +8,7 @@
 #include "main.h"
 #include "Encoder.hpp"
 
-void Encoder::EN_1(void)
+void Encoder::EN_3(void)
 {
 
 
@@ -40,7 +40,7 @@ void Encoder::EN_1(void)
 }
 
 
-void Encoder::EN_3(void)
+void Encoder::EN_1(void)
 {
 
 
@@ -71,7 +71,5 @@ void Encoder::EN_3(void)
 
 }
 
-
-
-volatile int Encoder::pulse_cnt = 0;
+int Encoder::pulse_cnt = 0;
 

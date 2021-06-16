@@ -21,8 +21,8 @@
 
 #include "main.h"
 
-#define Kp 1 / (23.677 * 100)
-#define Ki ( 23.677 * 1000000000000 )
+#define Kp 1 / (23.677 * 1.15)
+#define Ki ( 23.677 * 10000000000 )
 #define Kd 1 / 23.677
 
 class Feedback

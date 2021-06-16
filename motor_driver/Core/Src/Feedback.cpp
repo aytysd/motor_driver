@@ -73,7 +73,7 @@ int Feedback::PID_control(uint16_t current_speed)
 
 	uint16_t target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
 
-	Feedback::PID_pwm = this -> P_control(target_speed, current_speed) - this -> D_control(current_speed) + this -> I_control(target_speed, current_speed);
+	Feedback::PID_pwm = this -> P_control(target_speed, current_speed);// - this -> D_control(current_speed) + this -> I_control(target_speed, current_speed);
 
 	return Feedback::PID_pwm;
 }

@@ -36,6 +36,7 @@ public:
 
 	int speed_diff_calc(uint16_t target_speed);
 	uint16_t current_speed_calc();
+	uint16_t current_speed_calc_2();
 
 	void pwm_calc(void);
 	int get_current_pwm(void);

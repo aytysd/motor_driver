@@ -1,3 +1,2 @@
-Encoder.cpp:12:6:void Encoder::EN_1()	16	static
+Encoder.cpp:11:6:void Encoder::EN_1()	16	static
 Encoder.cpp:43:6:void Encoder::EN_3()	16	static
-Encoder.cpp:74:5:int Encoder::get_pulse_cnt()	16	static

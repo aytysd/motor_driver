@@ -23,9 +23,9 @@ class Encoder{
 public:
     void EN_1(void);
     void EN_3(void);
-    int get_pulse_cnt(void);
-private:
     static int pulse_cnt;
+private:
+
 
 };
 

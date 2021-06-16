@@ -44,7 +44,6 @@ void Function::outputPWM0(uint8_t pwm)
 
 
 		sConfigOC.OCMode = TIM_OCMODE_ASSYMETRIC_PWM1;
-		sConfigOC.Pulse = (uint32_t)((8)*pwm);
 		sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
 		sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
 		sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -54,7 +53,6 @@ void Function::outputPWM0(uint8_t pwm)
 		HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2);
 		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
 		HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_2);
-//		HAL_TIM_PWM_Init(&htim1);
 
 	}
 
@@ -91,7 +89,6 @@ void Function::outputPWM1(uint8_t pwm)
 
 
 		sConfigOC.OCMode = TIM_OCMODE_ASSYMETRIC_PWM2;
-		sConfigOC.Pulse = (uint32_t)((8)*pwm);
 		sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
 		sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
 		sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -101,7 +98,6 @@ void Function::outputPWM1(uint8_t pwm)
 		HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3);
 		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
 		HAL_TIMEx_PWMN_Start(&htim1,TIM_CHANNEL_3);
-//		HAL_TIM_PWM_Init(&htim1);
 
 	}
 

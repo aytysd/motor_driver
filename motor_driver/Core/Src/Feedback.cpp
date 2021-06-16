@@ -18,17 +18,24 @@ int Feedback::integral_diff = 0;
 int Feedback::PID_pwm  = 0;
 int Feedback::current_pwm = 0;
 
+uint16_t Feedback::current_speed_calc_2()
+{
+	uint16_t current_speed = RADIUS * 2 * M_PI * abs( Encoder::pulse_cnt ) / ( PPR * DT );
+	Encoder::pulse_cnt = 0;
+	return current_speed;
+
+
+}
+
 uint16_t Feedback::current_speed_calc()
 {
-	Encoder* encoder = new Encoder();
 
-	static int old_pulse_cnt = encoder -> get_pulse_cnt();
-	int current_pulse_cnt = encoder -> get_pulse_cnt();
+	static int old_pulse_cnt = Encoder::pulse_cnt;
+	int current_pulse_cnt = Encoder::pulse_cnt;
 
 	uint16_t current_speed = RADIUS * 2 * M_PI * abs( (int)( current_pulse_cnt - old_pulse_cnt) ) / ( PPR * DT );
 
 	old_pulse_cnt = current_pulse_cnt;
-	delete encoder;
 
 	return current_speed;
 
@@ -37,15 +44,14 @@ uint16_t Feedback::current_speed_calc()
 int Feedback::speed_diff_calc(uint16_t target_speed)
 {
 
-	Encoder* encoder = new Encoder();
 
 	if( target_speed == 0 )
 	{
 		target_speed++;
 	}
 
-	static int old_pulse_cnt = encoder -> get_pulse_cnt();
-	int current_pulse_cnt = encoder -> get_pulse_cnt();
+	static int old_pulse_cnt = 0;
+	int current_pulse_cnt = Encoder::pulse_cnt;
 
 	uint16_t current_speed = RADIUS * 2 * M_PI * abs( (int)( current_pulse_cnt - old_pulse_cnt) ) / ( PPR * DT );
 
@@ -53,7 +59,6 @@ int Feedback::speed_diff_calc(uint16_t target_speed)
 
 
 	old_pulse_cnt = current_pulse_cnt;
-	delete encoder;
 
 	return diff_percent;
 }
@@ -74,10 +79,8 @@ int Feedback::PID_control()
 {
 
 	uint16_t target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
-	uint16_t current_speed = this -> current_speed_calc();
+	uint16_t current_speed = this -> current_speed_calc_2();
 
-//	uint16_t target_speed = 2000;
-//	uint16_t current_speed = 2400;
 
 	Feedback::PID_pwm = this -> P_control(target_speed, current_speed) + this -> I_control(target_speed, current_speed) - this -> D_control(current_speed);
 
@@ -123,10 +126,9 @@ int Feedback::D_control(uint16_t current_speed)
 
 void Feedback::pwm_calc()
 {
-	Encoder* encoder = new Encoder();
 	static int old_pulse_cnt = 0;
 
-	int speed = (encoder -> get_pulse_cnt() - old_pulse_cnt) * CIRCUMFERENCE / ( DT * PPR );
+	int speed = ( Encoder::pulse_cnt - old_pulse_cnt) * CIRCUMFERENCE / ( DT * PPR );
 	if( speed < 0 )
 	{
 		Feedback::current_pwm = ( speed - 17.242 ) / 23.677;
@@ -135,7 +137,6 @@ void Feedback::pwm_calc()
 
 	Feedback::current_pwm = ( speed + 17.242 ) / 23.677;
 
-	delete encoder;
 
 	return;
 }

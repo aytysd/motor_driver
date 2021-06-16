@@ -1,9 +1,10 @@
-Feedback.cpp:21:10:uint16_t Feedback::current_speed_calc()	32	static
-Feedback.cpp:37:5:int Feedback::speed_diff_calc(uint16_t)	32	static
-Feedback.cpp:62:6:void Feedback::reset_PID()	16	static
-Feedback.cpp:73:5:int Feedback::PID_control()	32	static
-Feedback.cpp:89:5:int Feedback::P_control(uint16_t, uint16_t)	24	static
-Feedback.cpp:100:5:int Feedback::I_control(uint16_t, uint16_t)	16	static
-Feedback.cpp:112:5:int Feedback::D_control(uint16_t)	24	static
-Feedback.cpp:124:6:void Feedback::pwm_calc()	24	static
-Feedback.cpp:143:5:int Feedback::get_current_pwm()	16	static
+Feedback.cpp:21:10:uint16_t Feedback::current_speed_calc_2()	24	static
+Feedback.cpp:30:10:uint16_t Feedback::current_speed_calc()	24	static
+Feedback.cpp:44:5:int Feedback::speed_diff_calc(uint16_t)	32	static
+Feedback.cpp:67:6:void Feedback::reset_PID()	16	static
+Feedback.cpp:78:5:int Feedback::PID_control()	32	static
+Feedback.cpp:94:5:int Feedback::P_control(uint16_t, uint16_t)	24	static
+Feedback.cpp:105:5:int Feedback::I_control(uint16_t, uint16_t)	16	static
+Feedback.cpp:117:5:int Feedback::D_control(uint16_t)	24	static
+Feedback.cpp:129:6:void Feedback::pwm_calc()	24	static
+Feedback.cpp:146:5:int Feedback::get_current_pwm()	16	static

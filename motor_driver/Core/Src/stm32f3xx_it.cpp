@@ -218,7 +218,8 @@ void EXTI1_IRQHandler(void)
   /* USER CODE END EXTI1_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_1);
   /* USER CODE BEGIN EXTI1_IRQn 1 */
-  encoder -> EN_1();
+//  encoder -> EN_1();
+  encoder -> EN_3();
   /* USER CODE END EXTI1_IRQn 1 */
 }
 
@@ -232,7 +233,8 @@ void EXTI3_IRQHandler(void)
   /* USER CODE END EXTI3_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_3);
   /* USER CODE BEGIN EXTI3_IRQn 1 */
-  encoder -> EN_3();
+
+  encoder -> EN_1();
   /* USER CODE END EXTI3_IRQn 1 */
 }
 
@@ -261,11 +263,13 @@ void TIM6_DAC1_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC1_IRQn 1 */
 
-  feedback -> pwm_calc();
-  PID_pwm = feedback -> PID_control();
 
-  speed_diff = feedback -> speed_diff_calc( (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] )) );
   current_speed = feedback -> current_speed_calc_2();
+//  feedback -> pwm_calc();
+  PID_pwm = feedback -> PID_control( current_speed );
+
+  speed_diff = feedback -> speed_diff_calc( (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] )), current_speed );
+
 
   if( pwm -> get_Is_reached() == false )
   {

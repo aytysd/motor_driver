@@ -73,5 +73,5 @@ void Encoder::EN_3(void)
 
 
 
-int Encoder::pulse_cnt = 0;
+volatile int Encoder::pulse_cnt = 0;
 

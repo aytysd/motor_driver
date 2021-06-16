@@ -41,7 +41,7 @@ uint16_t Feedback::current_speed_calc()
 
 }
 
-int Feedback::speed_diff_calc(uint16_t target_speed)
+int Feedback::speed_diff_calc(uint16_t target_speed, uint16_t current_speed )
 {
 
 
@@ -50,15 +50,8 @@ int Feedback::speed_diff_calc(uint16_t target_speed)
 		target_speed++;
 	}
 
-	static int old_pulse_cnt = 0;
-	int current_pulse_cnt = Encoder::pulse_cnt;
-
-	uint16_t current_speed = RADIUS * 2 * M_PI * abs( (int)( current_pulse_cnt - old_pulse_cnt) ) / ( PPR * DT );
-
 	int diff_percent = 100 * (int)(current_speed - target_speed) / (int)target_speed;
 
-
-	old_pulse_cnt = current_pulse_cnt;
 
 	return diff_percent;
 }
@@ -75,14 +68,12 @@ void Feedback::reset_PID()
 }
 
 
-int Feedback::PID_control()
+int Feedback::PID_control(uint16_t current_speed)
 {
 
 	uint16_t target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
-	uint16_t current_speed = this -> current_speed_calc_2();
 
-
-	Feedback::PID_pwm = this -> P_control(target_speed, current_speed) + this -> I_control(target_speed, current_speed) - this -> D_control(current_speed);
+	Feedback::PID_pwm = this -> P_control(target_speed, current_speed) - this -> D_control(current_speed) + this -> I_control(target_speed, current_speed);
 
 	return Feedback::PID_pwm;
 }

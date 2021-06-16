@@ -23,7 +23,7 @@ class Encoder{
 public:
     void EN_1(void);
     void EN_3(void);
-    static int pulse_cnt;
+    static volatile int pulse_cnt;
 private:
 
 

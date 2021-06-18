@@ -21,27 +21,22 @@
 
 #include "main.h"
 
-#define Kp 1 / (23.677 * 1.15)
-#define Ki ( 23.677 * 10000000000000 )
-#define Kd 1 / ( 23.677 * 10 )
+#define Kp 0.05
+#define Ki 1
+#define Kd 0
 
 class Feedback
 {
 public:
 
 	int PID_control(uint16_t current_speed);
-	void reset_PID(void);
-	static int prp_pwm;
 	static int PID_pwm;
-	static bool target_changed;
-	static uint16_t current_target_speed;
+	static uint16_t current_speed;
 
 
 	int speed_diff_calc(uint16_t target_speed, uint16_t current_speed );
 	uint16_t current_speed_calc();
 
-	void pwm_calc(void);
-	int get_current_pwm(void);
 
 private:
 
@@ -51,7 +46,7 @@ private:
 
 	int P_control(uint16_t target_speed, uint16_t current_speed);
 	int I_control(uint16_t target_speed, uint16_t current_speed);
-	int D_control(uint16_t current_speed);
+	int D_control(uint16_t current_speed, uint16_t target_speed);
 };
 
 

@@ -68,10 +68,7 @@ void PWM::control_PWM(void)
 	else if (this -> direction == FREE)
 	{
 		this -> free();
-
-		Feedback* feedback = new Feedback();
-		this -> old_pwm = feedback -> get_current_pwm();
-		delete feedback;
+		this -> old_pwm = 0;
 	}
 
 }
@@ -91,6 +88,7 @@ uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target)
 		if(this -> old_pwm >= this -> target)
 		{
 			this -> Is_reached = true;
+			return (uint8_t)abs( this -> target );
 		}
 		else
 		{
@@ -118,6 +116,7 @@ uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target)
 		{
 
 			this -> Is_reached = true;
+			return (uint8_t)abs( this -> target );
 		}
 		else
 		{
@@ -151,7 +150,7 @@ void PWM::cw(uint8_t pwm)
 
     if( this -> get_Is_reached() == true && this -> PID_Enabled == true )
     {
-    	pwm += Feedback::PID_pwm;
+    	pwm += feedback -> PID_control( Feedback::current_speed );
     	this -> old_pwm += Feedback::PID_pwm;
     }
 
@@ -177,7 +176,7 @@ void PWM::ccw(uint8_t pwm)
 
     if( this -> get_Is_reached() == true && this -> PID_Enabled == true )
     {
-    	pwm += Feedback::PID_pwm;
+    	pwm += feedback -> PID_control( Feedback::current_speed );
     	this -> old_pwm += Feedback::PID_pwm;
     }
 

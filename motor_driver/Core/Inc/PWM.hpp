@@ -27,9 +27,7 @@ private:
 
 	int old_pwm;
 	int target;
-
     uint8_t direction;
-
     bool PID_Enabled;
 
     uint8_t trapezoid_control(uint8_t period, uint8_t target);

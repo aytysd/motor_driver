@@ -21,7 +21,7 @@
 
 #include "main.h"
 
-#define Kp 1 / (23.677 * 1.15)
+#define Kp 1 / (23.677 * 1.16)
 #define Ki ( 23.677 * 10000000000000 )
 #define Kd 1 / ( 23.677 * 10 )
 

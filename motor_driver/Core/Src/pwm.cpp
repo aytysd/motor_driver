@@ -42,6 +42,7 @@ void PWM::control_PWM(void)
 		this -> target = (-1) * (int)Rxdata[1];
 		break;
 	default:
+		this -> target = 0;
 		break;
 	}
 
@@ -99,9 +100,9 @@ uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target)
 		{
 
 			this -> Is_reached = false;
-
+			this -> old_pwm++;
 		}
-		this -> old_pwm++;
+
 		HAL_Delay(period);
 
 		return (uint8_t)this -> old_pwm;
@@ -127,9 +128,9 @@ uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target)
 		{
 
 			this -> Is_reached = false;
-
+			this -> old_pwm--;
 		}
-		this -> old_pwm--;
+
 		HAL_Delay(period);
 
 		return (uint8_t)abs(this -> old_pwm);
@@ -231,7 +232,7 @@ void PWM::free(void)
 
 	this -> Is_reached = false;
 
-	HAL_Delay(500);
+	HAL_Delay(2000);
 
 	delete function;
 }

@@ -11,6 +11,7 @@
 #include "Feedback.hpp"
 #include "Function.hpp"
 
+int actual_pwm = 0;
 
 uint8_t PWM::set_motor_number()
 {
@@ -39,7 +40,7 @@ void PWM::control_PWM(void)
 		this -> target = (int)Rxdata[1];
 		break;
 	case CCW:
-		this -> target = (-1) * (int)Rxdata[1];
+		this -> target = (int)((-1) * (int)Rxdata[1]);
 		break;
 	default:
 		this -> target = 0;
@@ -47,19 +48,16 @@ void PWM::control_PWM(void)
 	}
 
 
-    uint8_t pwm = 0;
 
-	pwm = this -> trapezoid_control(PERIOD, this -> target);
+	actual_pwm = this -> trapezoid_control(PERIOD);
 
 	if (this -> direction == CW)
 	{
-		this -> cw(pwm);
-		this -> old_pwm = pwm;
+		this -> cw( (uint8_t)abs( actual_pwm ) );
 	}
 	else if (this -> direction == CCW)
 	{
-		this -> ccw(pwm);
-		this -> old_pwm = pwm;
+		this -> ccw( (uint8_t)abs( actual_pwm ));
 	}
 	else if (this -> direction == BRAKE)
 	{
@@ -68,16 +66,12 @@ void PWM::control_PWM(void)
 	}
 	else if (this -> direction == FREE)
 	{
-		this -> free();
-
-		Feedback* feedback = new Feedback();
-		this -> old_pwm = feedback -> get_current_pwm();
-		delete feedback;
+		this -> old_pwm = 0;
 	}
 
 }
 
-uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target)
+int PWM::trapezoid_control(uint8_t period)
 {
 	switch(this -> direction)
 	{
@@ -85,55 +79,55 @@ uint8_t PWM::trapezoid_control(uint8_t period, uint8_t target)
 
 		if(this -> old_pwm < 0)
 		{
-			this -> free();
+			Feedback::integral_diff = 0;
+			this -> brake();
 			this -> old_pwm = 0;
 		}
 
-		if(this -> old_pwm >= this -> target)
+		if( this -> old_pwm < this -> target)
 		{
-
-			this -> Is_reached = true;
-			return this -> target;
-
+			this -> old_pwm++;
+			this -> Is_reached = false;
 		}
 		else
 		{
 
-			this -> Is_reached = false;
-			this -> old_pwm++;
+			this -> Is_reached = true;
+			this -> old_pwm = this -> target;
+
 		}
 
 		HAL_Delay(period);
 
-		return (uint8_t)this -> old_pwm;
+		return this -> old_pwm;
 
 
 		break;
 	case CCW:
 
+
 		if(this -> old_pwm > 0)
 		{
-			this -> free();
+			Feedback::integral_diff = 0;
+			this -> brake();
 			this -> old_pwm = 0;
 		}
 
-		if(this -> old_pwm <= this -> target)
+
+		if( this -> old_pwm > this -> target)
 		{
-
-			this -> Is_reached = true;
-			return (uint8_t)abs( this -> target );
-
+			this -> old_pwm--;
+			this -> Is_reached = false;
 		}
 		else
 		{
-
-			this -> Is_reached = false;
-			this -> old_pwm--;
+			this -> old_pwm = this -> target;
+			this -> Is_reached = true;
 		}
 
 		HAL_Delay(period);
 
-		return (uint8_t)abs(this -> old_pwm);
+		return this -> old_pwm;
 
 
 		break;
@@ -155,7 +149,7 @@ void PWM::cw(uint8_t pwm)
 
     if( this -> get_Is_reached() == true && this -> PID_Enabled == true )
     {
-    	pwm += Feedback::PID_pwm;
+    	pwm += feedback -> PID_control( Feedback::current_speed );
     }
 
 
@@ -165,8 +159,14 @@ void PWM::cw(uint8_t pwm)
 	HAL_TIM_PWM_Init(&htim1);
 
 
+/*
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
+*/
+
+	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
+
 
 	delete function;
 	delete feedback;
@@ -180,17 +180,23 @@ void PWM::ccw(uint8_t pwm)
 
     if( this -> get_Is_reached() == true && this -> PID_Enabled == true )
     {
-    	pwm += Feedback::PID_pwm;
+    	pwm += feedback -> PID_control( Feedback::current_speed );
     }
 
 
 	function -> outputPWM0(1);
-	function -> outputPWM1(100-pwm);
+	function -> outputPWM1(99-pwm);
 
 	HAL_TIM_PWM_Init(&htim1);
 
+	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);
+
+
+/*
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
+*/
 
 	delete function;
 	delete feedback;
@@ -201,15 +207,17 @@ void PWM::brake(void)
 
 	Function* function = new Function();
 
-	this -> free();
+//	this -> free();
 
 	function -> outputPWM0(0);
-	function -> outputPWM1(100);
+	function -> outputPWM1(99);
 
 	HAL_TIM_PWM_Init(&htim1);
 
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_SET);
+
+	HAL_Delay(1000);
 
 	this -> Is_reached = false;
 
@@ -217,6 +225,7 @@ void PWM::brake(void)
 
 }
 
+/*
 void PWM::free(void)
 {
 
@@ -232,17 +241,28 @@ void PWM::free(void)
 
 	this -> Is_reached = false;
 
-	HAL_Delay(2000);
+//	HAL_Delay(2000);
+
 
 	delete function;
 }
+*/
 
 bool PWM::get_Is_reached()
 {
 	return this -> Is_reached;
 }
 
+void PWM::disable_PID()
+{
+	this -> PID_Enabled = false;
+}
+
+void PWM::enable_PID()
+{
+	this -> PID_Enabled = true;
+}
 
 bool PWM::Is_reached = false;
-
-
+int PWM::target = 0;
+int PWM::old_pwm = 0;

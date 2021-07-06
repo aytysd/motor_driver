@@ -16,15 +16,26 @@
 
 int Feedback::integral_diff = 0;
 int Feedback::PID_pwm  = 0;
-int Feedback::current_pwm = 0;
-int Feedback::prp_pwm = 0;
+uint16_t Feedback::current_speed  = 0;
 
 uint16_t Feedback::current_speed_calc()
 {
+	if( Encoder::pulse_cnt == 0 )
+	{
+		PWM* pwm = new PWM();
+		pwm -> disable_PID();
+		delete pwm;
+	}
+	else
+	{
+		PWM* pwm = new PWM();
+		pwm -> enable_PID();
+		delete pwm;
+	}
+
 	uint16_t current_speed = RADIUS * 2 * M_PI * abs( Encoder::pulse_cnt ) / ( PPR * DT );
 	Encoder::pulse_cnt = 0;
 	return current_speed;
-
 
 }
 
@@ -45,15 +56,6 @@ int Feedback::speed_diff_calc(uint16_t target_speed, uint16_t current_speed )
 }
 
 
-void Feedback::reset_PID()
-{
-
-	this -> integral_diff = 0;
-	this -> PID_pwm = 0;
-
-	return;
-
-}
 
 
 int Feedback::PID_control(uint16_t current_speed)
@@ -61,16 +63,19 @@ int Feedback::PID_control(uint16_t current_speed)
 
 	uint16_t target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
 
-	if( 10 > this -> speed_diff_calc( target_speed, current_speed ) && -10 < this -> speed_diff_calc( target_speed, current_speed ))
+	if( !( 30 > abs(target_speed - current_speed)) )
 	{
-		this -> prp_pwm = this -> PID_pwm;
-	}
-	else
-	{
-		Feedback::PID_pwm = this -> P_control(target_speed, current_speed) - this -> D_control(current_speed) + this -> I_control(target_speed, current_speed);
+		this -> PID_pwm = this -> P_control(target_speed, current_speed) + this -> I_control(target_speed, current_speed) - this -> D_control(current_speed, target_speed);
 	}
 
-
+	if( PID_pwm >= 10 )
+	{
+		PID_pwm = 10;
+	}
+	if( PID_pwm <= -10 )
+	{
+		PID_pwm = -10;
+	}
 
 	return this -> PID_pwm;
 }
@@ -79,10 +84,13 @@ int Feedback::PID_control(uint16_t current_speed)
 
 int Feedback::P_control(uint16_t target_speed, uint16_t current_speed )
 {
-
+	static int old_speed_diff = 0;
 	int speed_diff = target_speed - current_speed;
 
-	int add_pwm = speed_diff * Kp;
+
+
+	int add_pwm = ( speed_diff + old_speed_diff ) * Kp / 2;
+	old_speed_diff = target_speed - current_speed;
 
 	return add_pwm;
 
@@ -91,20 +99,46 @@ int Feedback::P_control(uint16_t target_speed, uint16_t current_speed )
 int Feedback::I_control(uint16_t target_speed, uint16_t current_speed)
 {
 
+	static int old_diff = 0;
+	this -> integral_diff += ( (int)(target_speed - current_speed) + old_diff ) * DT / 2;
 
-	this -> integral_diff += ( target_speed - current_speed );
+	if( this -> integral_diff >= 25 )
+	{
+		this -> integral_diff = 25;
+	}
 
-	return this -> integral_diff / Ki;
+	if( this -> integral_diff <= -25 )
+	{
+		this -> integral_diff = -25;
+	}
+
+	if( abs( target_speed - current_speed ) <= 10 )
+	{
+		this -> integral_diff = 0;
+	}
+
+	old_diff = target_speed - current_speed;
+
+	return this -> integral_diff * Ki;
 
 }
 
 
 
-int Feedback::D_control(uint16_t current_speed)
+int Feedback::D_control(uint16_t current_speed, uint16_t target_speed)
 {
 
 	static uint16_t old_speed = current_speed;
 	int diff = current_speed - old_speed;
+
+	if( diff > 25 )
+	{
+		diff = 25;
+	}
+	if( diff < -25 )
+	{
+		diff = -25;
+	}
 
 	old_speed = current_speed;
 
@@ -112,27 +146,6 @@ int Feedback::D_control(uint16_t current_speed)
 }
 
 
-void Feedback::pwm_calc()
-{
-	static int old_pulse_cnt = 0;
-
-	int speed = ( Encoder::pulse_cnt - old_pulse_cnt) * CIRCUMFERENCE / ( DT * PPR );
-	if( speed < 0 )
-	{
-		Feedback::current_pwm = ( speed - 17.242 ) / 23.677;
-		return;
-	}
-
-	Feedback::current_pwm = ( speed + 17.242 ) / 23.677;
-
-
-	return;
-}
-
-int Feedback::get_current_pwm()
-{
-	return this -> current_pwm;
-}
 
 
 

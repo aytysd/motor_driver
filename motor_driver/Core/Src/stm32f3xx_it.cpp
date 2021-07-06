@@ -49,6 +49,7 @@
 uint16_t current_speed = 0;
 int PID_pwm = 0;
 int speed_diff = 0;
+uint16_t target_speed = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -240,6 +241,7 @@ void EXTI3_IRQHandler(void)
 /**
   * @brief This function handles USART2 global interrupt / USART2 wake-up interrupt through EXT line 26.
   */
+
 void USART2_IRQHandler(void)
 {
   /* USER CODE BEGIN USART2_IRQn 0 */
@@ -262,19 +264,9 @@ void TIM6_DAC1_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC1_IRQn 1 */
 
-
-  current_speed = feedback -> current_speed_calc();
-//  feedback -> pwm_calc();
-  PID_pwm = feedback -> PID_control( current_speed );
-
-  speed_diff = feedback -> speed_diff_calc( (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] )), current_speed );
-
-
-  if( pwm -> get_Is_reached() == false )
-  {
-	  feedback -> reset_PID();
-  }
-
+  target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
+  Feedback::current_speed = feedback -> current_speed_calc();
+  speed_diff = feedback -> speed_diff_calc( (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] )), Feedback::current_speed );
 
   /* USER CODE END TIM6_DAC1_IRQn 1 */
 }

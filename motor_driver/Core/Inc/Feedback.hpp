@@ -23,7 +23,7 @@
 
 #define Kp 0.05
 #define Ki 1
-#define Kd 0
+#define Kd 0.08
 
 class Feedback
 {
@@ -32,6 +32,7 @@ public:
 	int PID_control(uint16_t current_speed);
 	static int PID_pwm;
 	static uint16_t current_speed;
+	static int integral_diff;
 
 
 	int speed_diff_calc(uint16_t target_speed, uint16_t current_speed );
@@ -41,7 +42,7 @@ public:
 private:
 
 	static int current_pwm;
-	static int integral_diff;
+
 
 
 	int P_control(uint16_t target_speed, uint16_t current_speed);

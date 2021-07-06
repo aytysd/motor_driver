@@ -25,12 +25,12 @@ class PWM{
 
 private:
 
-	int old_pwm;
-	int target;
-    uint8_t direction;
-    bool PID_Enabled;
 
-    uint8_t trapezoid_control(uint8_t period, uint8_t target);
+
+    uint8_t direction = 0;
+
+
+    int trapezoid_control(uint8_t period);
 
     void cw(uint8_t pwm);
     void ccw(uint8_t pwm);
@@ -39,6 +39,12 @@ private:
 
     static bool Is_reached;
 public:
+    void disable_PID();
+    void enable_PID();
+
+    static int target;
+    bool PID_Enabled = false;
+    static int old_pwm;
 
     uint8_t set_motor_number();
     bool get_Is_reached(void);
@@ -46,10 +52,11 @@ public:
 
 	PWM()
     {
+/*
 		this -> old_pwm = 0;
 		this -> direction = FREE;
-		this -> target = 0;
 		this -> PID_Enabled = false;
+*/
 	}
 
 };

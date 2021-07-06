@@ -88,7 +88,7 @@ extern uint8_t Rxdata[4];
 #define PPR 2048
 #define RADIUS 53.5 //mm
 #define CIRCUMFERENCE 336.150413
-#define DT 0.1
+#define DT 0.01
 #define PERIOD 50
 /* USER CODE END Private defines */
 

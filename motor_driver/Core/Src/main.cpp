@@ -65,13 +65,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef*UartHandle)
 
 	PWM* pwm = new PWM();
 	if( pwm -> set_motor_number() == (0b00111100&Rxdata_buff[0])>>2 )
-	{
 		for(int i = 0; i<4; i++)
-		{
 			Rxdata[i] = Rxdata_buff[i];
-		}
 
-	}
 	delete pwm;
 }
 /* USER CODE END PFP */

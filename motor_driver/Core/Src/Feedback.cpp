@@ -60,7 +60,7 @@ double Feedback::PID_control(uint16_t current_speed)
 
 	uint16_t target_speed = (uint16_t)( ( Rxdata[2] << 8 ) | ( Rxdata[3] ) );
 
-	if( !( 30 > abs(target_speed - current_speed)) )
+	if( !( 100 > abs(target_speed - current_speed)) )
 		this -> PID_pwm = Kp * this -> P_control(target_speed, current_speed) + Ki * this -> I_control(target_speed, current_speed) - Kd * this -> D_control(current_speed, target_speed);
 
 	if( PID_pwm >= 30 )

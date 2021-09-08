@@ -47,6 +47,8 @@ TIM_HandleTypeDef htim6;
 
 UART_HandleTypeDef huart2;
 
+int count = 0;
+
 /* USER CODE BEGIN PV */
 uint8_t Rxdata[4] = {0};
 uint8_t Rxdata_buff[4] = {0};

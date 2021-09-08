@@ -266,6 +266,7 @@ void TIM6_DAC1_IRQHandler(void)
 
   target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
   Feedback::current_speed = feedback -> current_speed_calc();
+  current_speed = feedback -> current_speed_calc();
   speed_diff = feedback -> speed_diff_calc( (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] )), Feedback::current_speed );
 
   /* USER CODE END TIM6_DAC1_IRQn 1 */

@@ -23,8 +23,8 @@
 
 
 #define Kp 0.05
-#define Ki 1
-#define Kd 0
+#define Ki 0.8
+#define Kd 0.04
 
 
 class Feedback

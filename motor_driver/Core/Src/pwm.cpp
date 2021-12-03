@@ -62,7 +62,7 @@ void PWM::cw(uint8_t pwm)
 	function -> outputPWM0(pwm);
 	function -> outputPWM1(99);
 
-	HAL_TIM_PWM_Init(&htim1);
+//	HAL_TIM_PWM_Init(&htim1);
 
 
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_RESET);
@@ -88,7 +88,7 @@ void PWM::ccw(uint8_t pwm)
 	function -> outputPWM0(1);
 	function -> outputPWM1(99-pwm);
 
-	HAL_TIM_PWM_Init(&htim1);
+//	HAL_TIM_PWM_Init(&htim1);
 
 	HAL_GPIO_WritePin(LD_0_GPIO_Port, LD_0_Pin, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(LD_1_GPIO_Port, LD_1_Pin, GPIO_PIN_RESET);

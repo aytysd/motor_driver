@@ -9,7 +9,7 @@ stm32f3xx_it.cpp:181:6:void PendSV_Handler()	4	static
 stm32f3xx_it.cpp:194:6:void SysTick_Handler()	8	static
 stm32f3xx_it.cpp:215:6:void EXTI1_IRQHandler()	8	static
 stm32f3xx_it.cpp:230:6:void EXTI3_IRQHandler()	8	static
-stm32f3xx_it.cpp:245:6:void USART2_IRQHandler()	8	static
-stm32f3xx_it.cpp:259:6:void TIM6_DAC1_IRQHandler()	8	static
-stm32f3xx_it.cpp:273:1:void __static_initialization_and_destruction_0(int, int)	16	static
-stm32f3xx_it.cpp:273:1:cpp)	8	static
+stm32f3xx_it.cpp:244:6:void USART2_IRQHandler()	8	static
+stm32f3xx_it.cpp:258:6:void TIM6_DAC1_IRQHandler()	8	static
+stm32f3xx_it.cpp:272:1:void __static_initialization_and_destruction_0(int, int)	16	static
+stm32f3xx_it.cpp:272:1:cpp)	8	static

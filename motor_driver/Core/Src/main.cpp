@@ -47,11 +47,11 @@ TIM_HandleTypeDef htim6;
 
 UART_HandleTypeDef huart2;
 
-int count = 0;
-
 /* USER CODE BEGIN PV */
 uint8_t Rxdata[4] = {0};
 uint8_t Rxdata_buff[4] = {0};
+
+uint32_t start_time = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -65,10 +65,16 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef*UartHandle)
 {
 	HAL_UART_Receive_IT(&huart2, (uint8_t*)Rxdata_buff, sizeof(Rxdata_buff));
 
+	start_time = HAL_GetTick();
+
 	PWM* pwm = new PWM();
-	if( pwm -> set_motor_number() == (0b00111100&Rxdata_buff[0])>>2 )
-		for(int i = 0; i<4; i++)
-			Rxdata[i] = Rxdata_buff[i];
+	if( pwm -> set_motor_number() == ( 0b00111100&Rxdata_buff[ 0 ] ) >> 2 )
+	{
+		for(int i = 0; i < 4; i++ )
+		{
+			Rxdata[ i ] = Rxdata_buff[ i ];
+		}
+	}
 
 	delete pwm;
 }
@@ -121,6 +127,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  if( ( HAL_GetTick() - start_time ) > 500 )
+		  HAL_NVIC_SystemReset();
 	  pwm -> control_PWM();
 
     /* USER CODE END WHILE */
@@ -222,11 +230,13 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
+  __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_2);
   sConfigOC.OCMode = TIM_OCMODE_ASSYMETRIC_PWM2;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
   }
+  __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_3);
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
   sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
   sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
@@ -303,7 +313,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 9600;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -374,10 +384,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(EXTI1_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI3_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI3_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(EXTI3_IRQn);
 
 }

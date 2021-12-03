@@ -241,7 +241,6 @@ void EXTI3_IRQHandler(void)
 /**
   * @brief This function handles USART2 global interrupt / USART2 wake-up interrupt through EXT line 26.
   */
-
 void USART2_IRQHandler(void)
 {
   /* USER CODE BEGIN USART2_IRQn 0 */
@@ -264,10 +263,10 @@ void TIM6_DAC1_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC1_IRQn 1 */
 
-  target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
+//  target_speed = (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] ));
   Feedback::current_speed = feedback -> current_speed_calc();
-  current_speed = feedback -> current_speed_calc();
-  speed_diff = feedback -> speed_diff_calc( (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] )), Feedback::current_speed );
+//  current_speed = feedback -> current_speed_calc();
+//  speed_diff = feedback -> speed_diff_calc( (uint16_t)(( Rxdata[2] << 8 ) | ( Rxdata[3] )), Feedback::current_speed );
 
   /* USER CODE END TIM6_DAC1_IRQn 1 */
 }

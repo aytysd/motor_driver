@@ -85,7 +85,10 @@ extern uint8_t Rxdata[4];
 #define BRAKE 3
 #define FREE 0
 
-#define PPR 2048 // 8192
+//kaede 8192
+//momiji 2048
+
+#define PPR 8192
 #define RADIUS 53.5 //mm
 #define CIRCUMFERENCE 336.150413
 #define DT 0.01
